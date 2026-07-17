@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SJA Passion 73 — Rachat cash de votre véhicule | Offre ferme, paiement rapide</title>
+<meta name="description" content="SJA Passion 73 rachète votre véhicule au comptant. On se déplace ou vous venez en agence : inspection, évaluation chiffrée immédiate et offre ferme. Estimation gratuite et sans engagement." />
+<meta name="theme-color" content="#0a0a0b" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Rachat cash — SJA Passion 73" />
+<meta property="og:description" content="Votre voiture vaut du cash, maintenant. Évaluation chiffrée immédiate après inspection, offre ferme, paiement rapide." />
+<meta property="og:locale" content="fr_FR" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=Mulish:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* ---- Rachat cash — composants spécifiques (sur la base des tokens existants) ---- */
+  .rc-hero { min-height: 92vh; }
+  .rc-badge {
+    display: inline-flex; align-items: center; gap: 9px; align-self: flex-start;
+    padding: 8px 16px; border-radius: 100px; font-family: var(--font-display);
+    font-weight: 700; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+    background: color-mix(in srgb, var(--gold) 12%, transparent);
+  }
+  .rc-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px var(--gold-glow); }
+  .rc-trust { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .rc-trust .chip {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 100px;
+    background: color-mix(in srgb, var(--surface) 70%, transparent); border: 1px solid var(--line-strong);
+    color: var(--ink-soft); font-size: 13.5px; font-weight: 600; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .rc-trust .chip svg { width: 16px; height: 16px; color: var(--gold); }
+
+  /* bandeau slogan */
+  .rc-band { position: relative; z-index: 1; overflow: hidden; }
+  .rc-band .container { position: relative; z-index: 1; display: grid; gap: 22px; justify-items: center; text-align: center; padding-block: clamp(52px, 7vw, 84px); }
+  .rc-band-bg { position: absolute; inset: 0; z-index: 0; background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 16%, var(--bg-2)) 0%, var(--bg-2) 60%); }
+  .rc-band h2 { font-size: clamp(30px, 5vw, 56px); font-weight: 800; max-width: 18ch; line-height: 1.04; letter-spacing: -0.02em; }
+  .rc-band p { color: var(--ink-soft); max-width: 56ch; font-size: clamp(15px, 1.7vw, 18px); }
+
+  /* étapes — version 5 colonnes pour le rachat */
+  .rc-steps { grid-template-columns: repeat(5, 1fr); }
+  .rc-steps::before, .rc-steps .prog { left: 10%; right: 10%; }
+  .rc-steps.in .prog { width: 80%; }
+  .rc-steps.in .step:nth-child(6) .step-num { transition-delay: 1.5s; }
+  @media (max-width: 860px) { .rc-steps { grid-template-columns: repeat(2, 1fr); gap: 30px 22px; } .rc-steps::before, .rc-steps .prog { display: none; } }
+  @media (max-width: 520px) { .rc-steps { grid-template-columns: 1fr; } }
+
+  /* éligibilité */
+  .elig-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px; align-items: start; }
+  .elig-chips { display: flex; flex-wrap: wrap; gap: 12px; }
+  .elig-chips .echip {
+    display: inline-flex; align-items: center; gap: 10px; padding: 13px 18px; border-radius: 13px;
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink); font-weight: 600; font-size: 14.5px;
+    transition: transform 0.25s, border-color 0.25s;
+  }
+  .elig-chips .echip:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+  .elig-chips .echip svg { width: 18px; height: 18px; color: var(--gold); flex: none; }
+  .doc-card { padding: 28px 26px; }
+  .doc-card h3 { font-size: 18px; margin-bottom: 6px; }
+  .doc-card > p { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+  .doc-list { display: grid; gap: 11px; }
+  .doc-list li { display: flex; align-items: flex-start; gap: 11px; color: var(--ink-soft); font-size: 14.5px; }
+  .doc-list li svg { width: 18px; height: 18px; color: var(--gold); flex: none; margin-top: 2px; }
+  @media (max-width: 820px) { .elig-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+  /* mention rassurante */
+  .rc-fineprint { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+  /* note « droit de refus » sous le formulaire — visible */
+  .rc-disclaimer {
+    display: flex; align-items: center; gap: 10px; margin-top: 4px;
+    padding: 12px 16px; border-radius: 12px;
+    background: color-mix(in srgb, var(--gold) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gold) 32%, transparent);
+    color: var(--ink-soft); font-size: 13.5px; line-height: 1.4;
+  }
+  .rc-disclaimer svg { width: 18px; height: 18px; color: var(--gold); flex: none; }
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Rachat de véhicule au comptant",
+  "provider": { "@type": "AutoDealer", "name": "SJA Passion 73" },
+  "areaServed": ["France", "Auvergne-Rhône-Alpes", "Paris"],
+  "description": "Rachat cash de véhicules : inspection, évaluation chiffrée immédiate et offre ferme, à domicile ou en agence."
+}
+</script>
+</head>
+<body>
+
+<div class="sja-intro" id="sjaIntro" aria-hidden="true">
+  <div class="sja-intro__scene">
+    <video class="sja-intro__video" id="introVideo" src="assets/intro-video.mp4" muted playsinline preload="auto"></video>
+    <div class="sja-intro__logo" id="introLogo">
+      <span class="sja-intro__glow" aria-hidden="true"></span>
+      <img src="assets/logo-sja.png" alt="SJA Passion 73" />
+      <span class="sja-intro__shine" aria-hidden="true"></span>
+      <span class="sja-intro__dest" id="introDest"></span>
+    </div>
+  </div>
+  <button class="sja-intro__skip" id="introSkip" type="button">Passer l'intro</button>
+</div>
+
+<div id="parkBg" aria-hidden="true"></div>
+<div class="park-scrim" aria-hidden="true"></div>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="container">
+    <a class="brand-logo" href="index.html" aria-label="SJA Passion 73 — accueil">
+      <img class="brand-img" src="assets/logo-sja.png" alt="SJA Passion 73" />
+    </a>
+    <div class="nav-right">
+      <div class="nav-top">
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="index.html">Normes France et UE</a>
+          <a href="#top" class="is-current">Rachat cash</a>
+          <a href="Export Hors UE.html">Export normes hors UE</a>
+          <a href="Super Promo Intra UE.html" class="nav-superpromo">Super Promos</a>
+        </nav>
+        <button class="icon-btn nav-burger" id="burger" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" id="introReplay" aria-label="Revoir l'animation d'intro" title="Revoir l'animation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>
+        </button>
+        <button class="icon-btn" id="photoMgrBtn" aria-label="Gestion des photos" title="Gestion des photos par modèle"></button>
+        <button class="icon-btn" id="soundToggle" aria-label="Activer / couper le son"></button>
+        <button class="icon-btn" id="themeToggle" aria-label="Changer de thème"></button>
+      </div>
+    </div>
+  </div>
+  <div class="nav-subbar">
+    <div class="container">
+      <a href="#why-rc" class="active">Pourquoi nous</a>
+      <a href="#process-rc">Comment ça marche</a>
+      <a href="#estimation">Estimation</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero rc-hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="container">
+      <span class="rc-badge"><span class="dot"></span>Rachat cash</span>
+      <h1>
+        <span class="ln"><span>Votre voiture vaut du cash.</span></span>
+        <span class="ln"><span class="gold-text">Tout de suite.</span></span>
+      </h1>
+      <p class="hero-sub">Vous vendez, on évalue, on vous paie. Une <strong>offre ferme et chiffrée</strong> remise sur place après inspection — sans intermédiaire, sans annonce à gérer, sans attente.</p>
+      <div class="hero-cta">
+        <a href="#estimation" class="btn btn--gold">Estimer mon véhicule</a>
+        <a href="https://wa.me/33664401237?text=Bonjour%20SJA%20Passion%2073%2C%20je%20souhaite%20faire%20estimer%20mon%20v%C3%A9hicule%20pour%20un%20rachat%20cash." target="_blank" rel="noopener" class="btn btn--wa"><span data-icon="whatsapp" style="width:18px;height:18px;display:inline-flex"></span> Estimation par WhatsApp</a>
+      </div>
+      <div class="rc-trust">
+        <span class="chip"><span data-icon="clock"></span>Offre en ~30 minutes</span>
+        <span class="chip"><span data-icon="check"></span>Estimation 100% gratuite</span>
+        <span class="chip"><span data-icon="route"></span>On se déplace chez vous</span>
+        <span class="chip"><span data-icon="shield"></span>Paiement sécurisé & rapide</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>défiler</span><span class="line"></span></div>
+</section>
+
+<!-- ===================== POURQUOI ===================== -->
+<section class="section" id="why-rc">
+  <div class="container">
+    <div class="section-head reveal-up">
+      <span class="eyebrow">Pourquoi nous confier votre véhicule</span>
+      <h2>La vente de votre voiture, en mode express</h2>
+      <p>Fini les acheteurs qui se désistent, les rendez-vous sans suite et les négociations interminables. On s'occupe de tout, vous repartez payé.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal-up" data-delay="0"><div class="why-ic" data-icon="clock"></div><h3>Évaluation immédiate</h3><p>Un prix de rachat ferme, annoncé sur place le jour même — pas d'estimation « à la louche » par téléphone.</p></div>
+      <div class="why-card reveal-up" data-delay="1"><div class="why-ic" data-icon="route"></div><h3>On vient à vous</h3><p>À votre domicile, sur votre lieu de travail ou dans l'une de nos agences : c'est vous qui choisissez.</p></div>
+      <div class="why-card reveal-up" data-delay="2"><div class="why-ic" data-icon="shield"></div><h3>Paiement rapide & sûr</h3><p>Règlement sécurisé sous 24 à 48h et démarches administratives (carte grise, cession) gérées par nos soins.</p></div>
+      <div class="why-card reveal-up" data-delay="3"><div class="why-ic" data-icon="car"></div><h3>De nombreux profils</h3><p>Récente ou ancienne, citadine, SUV ou utilitaire, essence, diesel ou électrique : on étudie votre véhicule.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BANDEAU SLOGAN ===================== -->
+<section class="section rc-band" id="band">
+  <div class="rc-band-bg" aria-hidden="true"></div>
+  <div class="container reveal-up">
+    <span class="eyebrow" style="justify-content:center">Notre promesse</span>
+    <h2>Pas de blabla. Une inspection, un prix, du cash.</h2>
+    <p>Vous savez exactement combien vaut votre véhicule avant de repartir. Vous acceptez ou non — sans aucun engagement.</p>
+    <a href="#estimation" class="btn btn--gold">Je veux mon estimation gratuite</a>
+  </div>
+</section>
+
+<!-- ===================== COMMENT ÇA MARCHE ===================== -->
+<section class="section section--tint" id="process-rc">
+  <div class="container">
+    <div class="section-head reveal-up">
+      <span class="eyebrow">Comment ça marche</span>
+      <h2>Du premier contact au cash, en 5 étapes</h2>
+      <p>Un parcours simple, transparent et rapide, mené par un expert SJA Passion 73.</p>
+    </div>
+    <div class="steps rc-steps reveal-up">
+      <div class="prog"></div>
+      <div class="step"><div class="step-num">1</div><h3>Vous nous contactez</h3><p>Décrivez votre véhicule en 2 minutes : par téléphone, WhatsApp ou via le formulaire.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>On fixe le rendez-vous</h3><p>On se déplace chez vous ou vous venez dans l'une de nos agences — au choix, sans frais.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Inspection & vérifications</h3><p>Notre expert contrôle l'état, l'historique, les documents et fait un essai.</p></div>
+      <div class="step"><div class="step-num">4</div><h3>Offre chiffrée immédiate</h3><p>Un prix de rachat ferme, annoncé sur place — sans engagement de votre part.</p></div>
+      <div class="step"><div class="step-num">5</div><h3>Paiement & démarches</h3><p>Vous acceptez : on gère la cession et vous êtes réglé rapidement, en toute sécurité.</p></div>
+    </div>
+    <div class="ht-note reveal-up" data-delay="1">
+      <span class="ht-ic" data-icon="check"></span>
+      <div>
+        <strong>Estimation gratuite et sans engagement.</strong>
+        <span>L'inspection et l'offre de rachat ne vous coûtent rien. Vous restez libre d'accepter ou de refuser notre proposition.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CE QUE NOUS RACHETONS ===================== -->
+<section class="section" id="eligibility">
+  <div class="container">
+    <div class="section-head reveal-up">
+      <span class="eyebrow">Ce que nous rachetons</span>
+      <h2>Presque toutes les voitures nous intéressent</h2>
+      <p>Toutes marques, toutes énergies, tout kilométrage — pour les véhicules en bon état de marche.</p>
+    </div>
+    <div class="elig-grid">
+      <div class="elig-chips reveal-up">
+        <span class="echip"><span data-icon="check"></span>Toutes les marques</span>
+        <span class="echip"><span data-icon="check"></span>Essence · Diesel</span>
+        <span class="echip"><span data-icon="check"></span>Hybride · Électrique</span>
+        <span class="echip"><span data-icon="check"></span>Récentes ou anciennes</span>
+        <span class="echip"><span data-icon="check"></span>Fort kilométrage</span>
+        <span class="echip"><span data-icon="check"></span>Roulantes &amp; en bon état</span>
+        <span class="echip"><span data-icon="check"></span>Avec ou sans contrôle technique</span>
+        <span class="echip"><span data-icon="check"></span>Utilitaires & SUV</span>
+      </div>
+      <div class="info-card doc-card reveal-up" data-delay="1">
+        <h3>Documents à prévoir</h3>
+        <p>Pour aller vite le jour du rendez-vous, préparez si possible&nbsp;:</p>
+        <ul class="doc-list">
+          <li><span data-icon="check"></span>Carte grise (certificat d'immatriculation) à votre nom</li>
+          <li><span data-icon="check"></span>Contrôle technique de moins de 6 mois (véhicules de + de 4 ans)</li>
+          <li><span data-icon="check"></span>Pièce d'identité en cours de validité</li>
+          <li><span data-icon="check"></span>Double des clés + carnet d'entretien si disponible</li>
+          <li><span data-icon="check"></span>RIB pour le règlement</li>
+        </ul>
+        <p class="rc-fineprint">Nous ne rachetons pas les véhicules accidentés ou non roulants.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ESTIMATION (FORMULAIRE) ===================== -->
+<section class="section section--tint" id="estimation">
+  <div class="container">
+    <div class="section-head reveal-up">
+      <span class="eyebrow">Estimation gratuite &amp; sans engagement</span>
+      <h2>Recevez votre offre de rachat</h2>
+      <p>Renseignez votre véhicule en quelques secondes. On vous recontacte rapidement pour caler l'inspection et vous remettre une offre ferme.</p>
+    </div>
+    <div class="contact-grid">
+      <form class="form reveal-up" id="estimForm" novalidate>
+        <div class="form-success" id="formSuccess"><span data-icon="check" style="width:20px;height:20px"></span> Merci ! Votre demande d'estimation est bien partie — on vous recontacte très vite.</div>
+        <div class="form-row">
+          <div class="field" data-required><label for="fName">Nom complet</label><input id="fName" type="text" placeholder="Votre nom" /><span class="err">Veuillez indiquer votre nom.</span></div>
+          <div class="field" data-required><label for="fPhone">Téléphone</label><input id="fPhone" type="tel" placeholder="06 12 34 56 78" /><span class="err">Veuillez indiquer un numéro.</span></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="fEmail">Email</label><input id="fEmail" type="email" placeholder="vous@email.com" /><span class="err">Email invalide.</span></div>
+          <div class="field"><label for="fCity">Ville / Code postal</label><input id="fCity" type="text" placeholder="Ex. 73260 Aigueblanche" /></div>
+        </div>
+        <div class="form-row">
+          <div class="field" data-required><label for="fModel">Marque &amp; modèle</label><input id="fModel" type="text" placeholder="Ex. Renault Clio 5" /><span class="err">Indiquez le véhicule.</span></div>
+          <div class="field"><label for="fYear">Année</label><input id="fYear" type="number" min="1980" max="2026" placeholder="Ex. 2021" /></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label for="fKm">Kilométrage</label><input id="fKm" type="number" min="0" placeholder="Ex. 68000" /></div>
+          <div class="field"><label for="fState">État général</label>
+            <select id="fState">
+              <option value="">— Sélectionnez —</option>
+              <option>Excellent</option>
+              <option>Bon</option>
+              <option>Correct / à rafraîchir</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="fMsg">Précisions (options, historique, disponibilités…)</label><textarea id="fMsg" placeholder="Tout ce qui peut nous aider à évaluer votre véhicule."></textarea></div>
+        <button type="submit" class="btn btn--gold" style="justify-self:start">Recevoir mon estimation</button>
+        <p class="rc-disclaimer"><span data-icon="shield"></span>SJA&nbsp;Passion&nbsp;73 se réserve le droit de ne pas proposer de rachat selon l'état et le profil du véhicule.</p>
+      </form>
+
+      <aside class="contact-aside reveal-up" data-delay="1">
+        <div class="info-card">
+          <div class="info-row"><span class="ic" data-icon="whatsapp"></span><div><div class="t">WhatsApp</div><div class="d"><a href="https://wa.me/33664401237" target="_blank" rel="noopener">+33 6 64 40 12 37</a></div></div></div>
+          <div class="info-row"><span class="ic" data-icon="phone"></span><div><div class="t">Téléphone</div><div class="d"><a href="tel:+33679028563">+33 6 79 02 85 63</a></div></div></div>
+          <div class="info-row"><span class="ic" data-icon="mail"></span><div><div class="t">Email</div><div class="d"><a href="mailto:contact.sjapassion73@gmail.com">contact.sjapassion73@gmail.com</a></div></div></div>
+        </div>
+        <div class="info-card">
+          <div class="info-row"><span class="ic" data-icon="clock"></span><div><div class="t">Horaires</div></div></div>
+          <ul class="hours-list">
+            <li><span>Lundi – Vendredi</span><span>9h00 – 19h00</span></li>
+            <li><span>Samedi</span><span>9h00 – 17h00</span></li>
+            <li><span>Dimanche</span><span>Sur RDV</span></li>
+          </ul>
+        </div>
+        <div class="info-card agencies">
+          <div class="info-row"><span class="ic" data-icon="pin"></span><div><div class="t">Nos agences</div><div class="d">Trois points de vente &middot; deux en Auvergne&#8209;Rhône&#8209;Alpes, un à Paris</div></div></div>
+          <ul class="agency-list">
+            <li class="agency"><div class="agency-main"><span class="agency-city">Aigueblanche <em>Siège</em></span><span class="agency-meta">73260 &middot; Savoie — Tarentaise</span></div><a class="agency-go" href="https://www.google.com/maps/search/?api=1&amp;query=SJA%20Passion%2073%2C%2073260%20Aigueblanche" target="_blank" rel="noopener" aria-label="Itinéraire vers l'agence d'Aigueblanche">Itinéraire<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+            <li class="agency"><div class="agency-main"><span class="agency-city">Lyon</span><span class="agency-meta">69000 &middot; Rhône</span></div><a class="agency-go" href="https://www.google.com/maps/search/?api=1&amp;query=SJA%20Passion%2073%2C%2069000%20Lyon" target="_blank" rel="noopener" aria-label="Itinéraire vers l'agence de Lyon">Itinéraire<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+            <li class="agency"><div class="agency-main"><span class="agency-city">Paris</span><span class="agency-meta">75012 &middot; Paris 12<sup>e</sup></span></div><a class="agency-go" href="https://www.google.com/maps/search/?api=1&amp;query=SJA%20Passion%2073%2C%2075012%20Paris" target="_blank" rel="noopener" aria-label="Itinéraire vers l'agence de Paris">Itinéraire<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col footer-about">
+        <a class="brand-logo brand-logo--footer" href="index.html"><img class="brand-img" src="assets/logo-sja.png" alt="SJA Passion 73" /></a>
+        <p>Votre expert de la vente et de l'importation de véhicules depuis plus de 20 ans — et désormais le rachat cash de votre voiture, partout en France.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram" data-icon="ig"></a>
+          <a href="#" aria-label="Facebook" data-icon="fb"></a>
+          <a href="#" aria-label="YouTube" data-icon="yt"></a>
+          <a href="#" aria-label="TikTok" data-icon="tk"></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Nos activités</h4><ul><li><a href="index.html#catalogue">Vente de véhicules</a></li><li><a href="index.html#process">Export & livraison</a></li><li><a href="#top">Rachat cash</a></li><li><a href="Export Hors UE.html">Export hors UE</a></li></ul></div>
+      <div class="footer-col"><h4>Rachat cash</h4><ul><li><a href="#process-rc">Comment ça marche</a></li><li><a href="#eligibility">Ce que nous rachetons</a></li><li><a href="#estimation">Demander une offre</a></li><li><a href="https://wa.me/33664401237" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li><li><a href="#">Confidentialité</a></li><li><a href="#">Cookies</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SJA Passion 73. Tous droits réservés.</span>
+      <span>Vente automobile en France et à l'international</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== WHATSAPP FAB ===================== -->
+<div class="fab" id="fab">
+  <div class="fab-menu" id="fabMenu"></div>
+  <button class="fab-wa" id="fabBtn" aria-label="Contact WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01ZM12.04 20.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43l-.48-.01c-.16 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+  </button>
+</div>
+
+<script src="sound.js"></script>
+<script src="rachat.js"></script>
+</body>
+</html>
