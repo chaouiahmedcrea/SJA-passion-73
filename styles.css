@@ -343,7 +343,7 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 .nav-subbar a:hover { color: var(--ink); }
 .nav-subbar a.active { background: color-mix(in srgb, var(--gold) 16%, var(--surface)); color: var(--ink); }
-@media (max-width: 760px) { .nav-subbar .container { gap: 4px; } .nav-subbar a { padding: 8px 12px; font-size: 13px; } }
+@media (max-width: 760px) { .nav-subbar .container { gap: 6px 8px; max-height: 5.4em; overflow: hidden; } .nav-subbar a { padding: 6px 11px; font-size: 12px; } }
 @media (max-width: 760px) {
   .nav-drop-menu {
     position: static; transform: none; margin-top: 4px; margin-left: 14px; opacity: 1; visibility: visible;
@@ -975,7 +975,7 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 @media (max-width: 760px) {
   .nav-burger { display: none; }
-  .nav .container { flex-direction: column; align-items: flex-start; gap: 10px; padding-block: 14px 10px; }
+  .nav > .container { flex-direction: column; align-items: flex-start; gap: 10px; padding-block: 14px 10px; }
   .nav-links {
     display: flex; flex-wrap: wrap; gap: 8px; width: 100%;
   }
