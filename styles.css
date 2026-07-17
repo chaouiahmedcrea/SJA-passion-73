@@ -976,11 +976,9 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 @media (max-width: 760px) {
   .nav-burger { display: none; }
   .nav-links {
-    display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
-    gap: 8px; width: 100%; scrollbar-width: none; padding-bottom: 2px;
+    display: flex; flex-wrap: wrap; gap: 8px; width: 100%;
   }
-  .nav-links::-webkit-scrollbar { display: none; }
-  .nav-links a { flex: none; font-size: 14px; }
+  .nav-links a { flex: none; font-size: 13px; }
   .nav-links a.nav-rachat, .nav-links a.is-current:not(.nav-superpromo) { white-space: nowrap; width: auto; text-align: left; }
   .brand-img { height: 74px; }
   .nav.scrolled .brand-img { height: 60px; }
@@ -1086,9 +1084,9 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 /* Nom de la page de destination — positionné indépendamment du logo pour rester dans l'écran */
 .sja-intro__dest {
   position: absolute; left: 50%; bottom: 4%; transform: translate(-50%, 14px);
-  white-space: nowrap; z-index: 4;
-  font-family: var(--font-display); font-weight: 700; font-size: clamp(60px, 9.6vw, 88px);
-  letter-spacing: 0.04em; text-transform: uppercase; color: #16181c;
+  z-index: 4; width: 92vw; text-align: center;
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 4.8vw, 44px);
+  line-height: 1.15; letter-spacing: 0.04em; text-transform: uppercase; color: #16181c;
   opacity: 0;
 }
 .sja-intro.reveal .sja-intro__dest.show { animation: destIn 0.7s ease-out 0.1s forwards; }
