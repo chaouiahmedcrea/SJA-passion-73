@@ -975,7 +975,7 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 @media (max-width: 760px) {
   .nav-burger { display: none; }
-  .nav > .container { flex-direction: column; align-items: flex-start; gap: 10px; padding-block: 14px 10px; }
+  .nav > .container { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; padding-block: 14px 10px; }
   .nav-links {
     display: flex; flex-wrap: wrap; gap: 8px; width: 100%;
   }
@@ -983,9 +983,10 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   .nav-links a.nav-rachat, .nav-links a.is-current:not(.nav-superpromo) { white-space: nowrap; width: auto; text-align: left; }
   .brand-img { height: 64px; }
   .nav.scrolled .brand-img { height: 52px; }
-  .nav-right { flex-direction: column; align-items: stretch; gap: 10px; transform: none; width: 100%; }
+  .brand-logo { flex: none; }
+  .nav-right { flex: 1; min-width: 200px; flex-direction: column; align-items: stretch; gap: 10px; transform: none; }
   .nav-top { flex-direction: row; order: 2; width: 100%; }
-  .nav-actions { order: 1; justify-content: flex-start; }
+  .nav-actions { order: 1; justify-content: flex-end; }
   .nav-subbar { transform: none; }
   .nav.mobile-open .nav-links {
     display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
