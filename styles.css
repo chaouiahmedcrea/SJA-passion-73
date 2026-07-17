@@ -981,6 +981,7 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   .nav-right { flex-direction: row; align-items: center; gap: 10px; transform: none; }
   .nav-top { flex-direction: row; order: 2; }
   .nav-actions { order: 1; }
+  .nav-subbar { transform: none; }
   .nav.mobile-open .nav-links {
     display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
     background: var(--bg); border-bottom: 1px solid var(--line); padding: 22px 28px; gap: 18px;
