@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Administration — SJA Passion 73</title>
+<style>
+:root{--bg:#0e0e10;--card:#17171a;--line:#2a2a2f;--gold:#c9a24b;--ink:#f2efe8;--muted:#9a968c;--red:#d05050;--green:#5aa86c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.5 "Manrope",system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+a{color:var(--gold)}a:hover{color:#e0bd6e}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px}
+h1{font-size:22px;margin-bottom:4px}
+.sub{color:var(--muted);font-size:13.5px;margin-bottom:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.login{max-width:380px;margin:10vh auto}
+label{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 5px}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:#101013;color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;border:1px solid var(--line);background:#1e1e22;color:var(--ink);font-weight:700;font-size:13.5px;cursor:pointer}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn--gold{background:var(--gold);border-color:var(--gold);color:#14100a}
+.btn--gold:hover{background:#e0bd6e;color:#14100a}
+.btn--danger:hover{border-color:var(--red);color:var(--red)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0}
+.toolbar input{max-width:280px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+tr.is-hidden td{opacity:.42;text-decoration:line-through}
+tr.is-new td{background:rgba(90,168,108,.06)}
+tr.is-edited td{background:rgba(201,162,75,.06)}
+.tag{display:inline-block;padding:2px 9px;border-radius:100px;font-size:11px;font-weight:700}
+.tag--ue{background:rgba(90,168,108,.15);color:var(--green)}
+.tag--xu{background:rgba(208,80,80,.15);color:var(--red)}
+.tag--promo{background:rgba(201,162,75,.18);color:var(--gold)}
+.row-actions{display:flex;gap:6px}
+.row-actions button{padding:5px 11px;font-size:12px}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:24px;max-width:640px;width:92vw}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.err-msg{color:var(--red);font-size:13px;margin-top:10px;display:none}
+.badge-count{color:var(--gold);font-weight:800}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}.hide-sm{display:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="loginView">
+  <div class="card login">
+    <h1>Administration</h1>
+    <p class="sub">SJA Passion 73 — gestion des annonces</p>
+    <form id="loginForm">
+      <label for="lUser">Identifiant</label><input id="lUser" type="text" autocomplete="username" />
+      <label for="lPass">Mot de passe</label><input id="lPass" type="password" autocomplete="current-password" />
+      <p class="err-msg" id="loginErr">Identifiant ou mot de passe incorrect.</p>
+      <div style="margin-top:18px"><button class="btn btn--gold" type="submit">Se connecter</button></div>
+    </form>
+    <p class="note">Accès réservé. Par défaut : identifiant <b>admin</b> — pensez à changer le mot de passe après la première connexion.</p>
+  </div>
+</div>
+
+<div class="wrap" id="adminView" hidden>
+  <h1>Annonces <span class="badge-count" id="countLbl"></span></h1>
+  <p class="sub">Les modifications sont visibles immédiatement sur ce navigateur. Pour les publier pour tous les visiteurs : « Publier » puis remplacez le fichier <b>data-annonces.js</b> sur votre hébergement (GitHub). La connexion au flux fournisseur remplacera cette saisie manuelle.</p>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Rechercher (marque, modèle, id…)" />
+    <button class="btn btn--gold" id="btnAdd" type="button">+ Ajouter une annonce</button>
+    <button class="btn" id="btnPublish" type="button">⬇ Publier (télécharger data-annonces.js)</button>
+    <button class="btn btn--danger" id="btnReset" type="button">Annuler mes modifications locales</button>
+    <span style="flex:1"></span>
+    <button class="btn" id="btnPass" type="button">Mot de passe</button>
+    <button class="btn" id="btnLogout" type="button">Déconnexion</button>
+  </div>
+  <div class="card" style="padding:8px 14px;overflow-x:auto">
+    <table>
+      <thead><tr><th>Véhicule</th><th>Année</th><th>Prix</th><th class="hide-sm">Énergie / Boîte</th><th>Marché</th><th>Promo</th><th>Actions</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="note">Marché « hors-ue » = visible uniquement dans l'onglet Export hors UE. Promo « intra »/« extra » = visible dans Super Promos. Les annonces du fichier fournisseur ne peuvent pas être supprimées définitivement ici : elles sont masquées.</p>
+</div>
+
+<dialog id="editDlg">
+  <h1 id="dlgTitle" style="font-size:18px;margin-bottom:6px">Annonce</h1>
+  <form id="editForm" method="dialog">
+    <div class="grid2">
+      <div><label for="eBrand">Marque</label><select id="eBrand"></select></div>
+      <div><label for="eModel">Modèle</label><input id="eModel" type="text" placeholder="Ex. Clio 5" /></div>
+    </div>
+    <label for="eVersion">Version / finition</label><input id="eVersion" type="text" placeholder="Ex. TCe 90 Techno" />
+    <div class="grid2">
+      <div><label for="eYear">Année</label><input id="eYear" type="number" min="2000" max="2030" /></div>
+      <div><label for="ePrice">Prix (€)</label><input id="ePrice" type="number" min="0" step="100" /></div>
+      <div><label for="eKm">Kilométrage</label><input id="eKm" type="number" min="0" step="100" /></div>
+      <div><label for="eCondition">État</label><select id="eCondition"><option value="neuf">Neuf</option><option value="occasion">Occasion</option></select></div>
+      <div><label for="eEnergy">Énergie</label><select id="eEnergy"><option>Essence</option><option>Diesel</option><option>Hybride</option><option>GPL</option><option>Électrique</option></select></div>
+      <div><label for="eGearbox">Boîte</label><select id="eGearbox"><option value="manuelle">Manuelle</option><option value="automatique">Automatique</option></select></div>
+      <div><label for="eMarket">Marché</label><select id="eMarket"><option value="ue">France / UE</option><option value="hors-ue">Export hors UE uniquement</option></select></div>
+      <div><label for="ePromo">Super promo</label><select id="ePromo"><option value="">Non</option><option value="intra">Oui — intra UE</option><option value="extra">Oui — extra UE</option></select></div>
+      <div><label for="eColour">Couleur</label><select id="eColour"><option value="white">Blanc</option><option value="black">Noir</option><option value="grey">Gris</option><option value="schiste">Gris schiste</option><option value="silver">Argent</option><option value="blue">Bleu</option><option value="red">Rouge</option><option value="orange">Orange</option><option value="green">Vert</option><option value="brown">Brun</option><option value="beige">Beige</option><option value="sandstone">Sable</option></select></div>
+    </div>
+    <label for="eOptions">Équipements (séparés par des virgules)</label><textarea id="eOptions" rows="2" placeholder="Caméra de recul, Régulateur adaptatif, ..."></textarea>
+    <p class="note">Les photos sont reprises automatiquement depuis la photothèque du modèle (même nom de modèle qu'une annonce existante = mêmes photos).</p>
+    <div class="dlg-actions">
+      <button class="btn" type="button" id="dlgCancel">Annuler</button>
+      <button class="btn btn--gold" type="submit" id="dlgSave">Enregistrer</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="data-annonces.js"></script>
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var BASE = window.SJA_VEHICLES || [];
+  var BRANDS = window.SJA_BRANDS || [];
+  var KEY = "sja-admin-overrides", HKEY = "sja-admin-hash", SKEY = "sja-admin-auth";
+  var DEFAULT_PASS = "SJA73!admin";
+
+  function loadOv() { try { return JSON.parse(localStorage.getItem(KEY) || "null") || { added: [], edited: {}, removed: [] }; } catch (e) { return { added: [], edited: {}, removed: [] }; } }
+  function saveOv(o) { localStorage.setItem(KEY, JSON.stringify(o)); }
+  var ov = loadOv();
+
+  /* ---- Auth ------------------------------------------------------------ */
+  async function sha(t) {
+    var b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
+    return Array.from(new Uint8Array(b)).map(function (x) { return x.toString(16).padStart(2, "0"); }).join("");
+  }
+  function authed() { try { return sessionStorage.getItem(SKEY) === "1"; } catch (e) { return false; } }
+  function show(admin) { $("#loginView").hidden = admin; $("#adminView").hidden = !admin; if (admin) render(); }
+  $("#loginForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    var u = $("#lUser").value.trim(), p = $("#lPass").value;
+    var stored = localStorage.getItem(HKEY) || (await sha(DEFAULT_PASS));
+    if (u === "admin" && (await sha(p)) === stored) {
+      try { sessionStorage.setItem(SKEY, "1"); } catch (e2) {}
+      $("#loginErr").style.display = "none";
+      show(true);
+    } else { $("#loginErr").style.display = "block"; }
+  });
+  $("#btnLogout").addEventListener("click", function () { try { sessionStorage.removeItem(SKEY); } catch (e) {} show(false); });
+  $("#btnPass").addEventListener("click", async function () {
+    var cur = prompt("Mot de passe actuel :"); if (cur === null) return;
+    var stored = localStorage.getItem(HKEY) || (await sha(DEFAULT_PASS));
+    if ((await sha(cur)) !== stored) { alert("Mot de passe actuel incorrect."); return; }
+    var np = prompt("Nouveau mot de passe (8 caractères minimum) :");
+    if (!np || np.length < 8) { alert("Trop court — non modifié."); return; }
+    localStorage.setItem(HKEY, await sha(np));
+    alert("Mot de passe modifié. Il est propre à ce navigateur : notez-le précieusement.");
+  });
+
+  /* ---- Data helpers ------------------------------------------------------ */
+  function merged() {
+    var list = BASE.map(function (v) { return ov.edited[v.id] ? Object.assign({}, v, ov.edited[v.id]) : v; });
+    ov.added.forEach(function (a) { if (!list.some(function (v) { return v.id === a.id; })) list.push(ov.edited[a.id] ? Object.assign({}, a, ov.edited[a.id]) : a); });
+    return list;
+  }
+  function brandName(id) { var b = BRANDS.find(function (x) { return x.id === id; }); return b ? b.name : id; }
+  function fmt(n) { return (n || 0).toLocaleString("fr-FR") + " €"; }
+
+  /* ---- Table ------------------------------------------------------------- */
+  function render() {
+    var q = ($("#search").value || "").toLowerCase();
+    var list = merged().filter(function (v) {
+      return !q || (brandName(v.brand) + " " + v.model + " " + (v.version || "") + " " + v.id).toLowerCase().indexOf(q) !== -1;
+    });
+    $("#countLbl").textContent = "(" + list.length + ")";
+    var tb = $("#rows"); tb.innerHTML = "";
+    list.slice(0, 400).forEach(function (v) {
+      var isNew = ov.added.some(function (a) { return a.id === v.id; });
+      var hidden = ov.removed.indexOf(v.id) !== -1;
+      var tr = document.createElement("tr");
+      tr.className = (hidden ? "is-hidden " : "") + (isNew ? "is-new" : ov.edited[v.id] ? "is-edited" : "");
+      tr.innerHTML = "<td><b>" + brandName(v.brand) + " " + v.model + "</b><br><span style='color:var(--muted);font-size:12px'>" + (v.version || v.rawModel || "") + "</span></td>" +
+        "<td>" + (v.year || "—") + "</td><td>" + fmt(v.price) + "</td>" +
+        "<td class='hide-sm'>" + (v.energy || "—") + " / " + (v.gearbox || "—") + "</td>" +
+        "<td>" + (v.market === "hors-ue" ? "<span class='tag tag--xu'>Hors UE</span>" : "<span class='tag tag--ue'>France/UE</span>") + "</td>" +
+        "<td>" + (v.promoZone ? "<span class='tag tag--promo'>" + v.promoZone + "</span>" : "—") + "</td><td></td>";
+      var td = tr.lastChild, act = document.createElement("div"); act.className = "row-actions";
+      var bE = document.createElement("button"); bE.className = "btn"; bE.textContent = "Modifier";
+      bE.onclick = function () { openEdit(v, isNew); };
+      var bH = document.createElement("button"); bH.className = "btn btn--danger"; bH.textContent = hidden ? "Rétablir" : (isNew ? "Supprimer" : "Masquer");
+      bH.onclick = function () {
+        if (isNew && !hidden) { if (!confirm("Supprimer définitivement cette annonce ajoutée ?")) return; ov.added = ov.added.filter(function (a) { return a.id !== v.id; }); delete ov.edited[v.id]; }
+        else if (hidden) ov.removed = ov.removed.filter(function (x) { return x !== v.id; });
+        else ov.removed.push(v.id);
+        saveOv(ov); render();
+      };
+      act.appendChild(bE); act.appendChild(bH); td.appendChild(act);
+      tb.appendChild(tr);
+    });
+  }
+  $("#search").addEventListener("input", render);
+
+  /* ---- Edit dialog ------------------------------------------------------- */
+  var dlg = $("#editDlg"), editing = null, editingIsNew = false;
+  var bs = $("#eBrand"); BRANDS.forEach(function (b) { var o = document.createElement("option"); o.value = b.id; o.textContent = b.name; bs.appendChild(o); });
+  function openEdit(v, isNew) {
+    editing = v; editingIsNew = isNew;
+    $("#dlgTitle").textContent = v ? "Modifier — " + brandName(v.brand) + " " + v.model : "Nouvelle annonce";
+    $("#eBrand").value = v ? v.brand : BRANDS[0].id;
+    $("#eModel").value = v ? v.model : "";
+    $("#eVersion").value = v ? (v.version || "") : "";
+    $("#eYear").value = v ? (v.year || "") : new Date().getFullYear();
+    $("#ePrice").value = v ? (v.price || "") : "";
+    $("#eKm").value = v ? (v.km || 0) : 0;
+    $("#eCondition").value = v ? (v.condition || "occasion") : "neuf";
+    $("#eEnergy").value = v ? (v.energy || "Essence") : "Essence";
+    $("#eGearbox").value = v ? (v.gearbox || "manuelle") : "manuelle";
+    $("#eMarket").value = v && v.market === "hors-ue" ? "hors-ue" : "ue";
+    $("#ePromo").value = v ? (v.promoZone || "") : "";
+    $("#eColour").value = v ? (v.colour || "white") : "white";
+    $("#eOptions").value = v && v.options ? v.options.join(", ") : "";
+    dlg.showModal();
+  }
+  $("#btnAdd").addEventListener("click", function () { openEdit(null, true); });
+  $("#dlgCancel").addEventListener("click", function () { dlg.close(); });
+  $("#editForm").addEventListener("submit", function () {
+    var patch = {
+      brand: $("#eBrand").value, model: $("#eModel").value.trim(), version: $("#eVersion").value.trim(),
+      year: +$("#eYear").value || new Date().getFullYear(), price: +$("#ePrice").value || 0, km: +$("#eKm").value || 0,
+      condition: $("#eCondition").value, energy: $("#eEnergy").value, gearbox: $("#eGearbox").value,
+      colour: $("#eColour").value,
+      options: $("#eOptions").value.split(",").map(function (s) { return s.trim(); }).filter(Boolean)
+    };
+    if ($("#eMarket").value === "hors-ue") patch.market = "hors-ue"; else patch.market = "ue";
+    if ($("#ePromo").value) patch.promoZone = $("#ePromo").value; else patch.promoZone = "";
+    if (!patch.model || !patch.price) { alert("Modèle et prix sont obligatoires."); return; }
+    if (editing) {
+      if (editingIsNew) { ov.added = ov.added.map(function (a) { return a.id === editing.id ? Object.assign({}, a, patch) : a; }); }
+      else ov.edited[editing.id] = Object.assign({}, ov.edited[editing.id] || {}, patch);
+    } else {
+      patch.id = "adm-" + Date.now();
+      ov.added.push(patch);
+    }
+    saveOv(ov); render();
+  });
+
+  /* ---- Publish / reset ---------------------------------------------------- */
+  $("#btnPublish").addEventListener("click", function () {
+    var head = "/* =========================================================================\n   ANNONCES PUBLIÉES VIA L'ADMINISTRATION (admin.html)\n   Fichier généré le " + new Date().toLocaleString("fr-FR") + ".\n   Remplacez data-annonces.js sur votre hébergement par ce fichier.\n   ========================================================================= */\n";
+    var body = "window.SJA_PUBLISHED = " + JSON.stringify({ added: ov.added, edited: ov.edited, removed: ov.removed }, null, 1) + ";\n" +
+"(function () {\n  function apply(o) {\n    if (!o) return;\n    var list = window.SJA_VEHICLES || [];\n    if (o.removed && o.removed.length) list = list.filter(function (v) { return o.removed.indexOf(v.id) === -1; });\n    if (o.edited) list = list.map(function (v) { return o.edited[v.id] ? Object.assign({}, v, o.edited[v.id]) : v; });\n    if (o.added && o.added.length) o.added.forEach(function (a) { if (!list.some(function (v) { return v.id === a.id; })) list = list.concat([a]); });\n    window.SJA_VEHICLES = list;\n  }\n  apply(window.SJA_PUBLISHED);\n  try { apply(JSON.parse(localStorage.getItem(\"sja-admin-overrides\") || \"null\")); } catch (e) {}\n})();\n";
+    var blob = new Blob([head + body], { type: "text/javascript" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "data-annonces.js"; a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 5000);
+    alert("Fichier téléchargé. Remplacez data-annonces.js à la racine de votre site (GitHub) pour publier ces annonces pour tous les visiteurs.");
+  });
+  $("#btnReset").addEventListener("click", function () {
+    if (!confirm("Annuler toutes vos modifications locales (non publiées) ?")) return;
+    ov = { added: [], edited: {}, removed: [] }; saveOv(ov); render();
+  });
+
+  show(authed());
+})();
+</script>
+</body>
+</html>

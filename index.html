@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="canonical" href="https://chaouiahmedcrea.github.io/SJA-passion-73/" />
+<meta property="og:url" content="https://chaouiahmedcrea.github.io/SJA-passion-73/" />
 <title>SJA Passion 73 — Export de véhicules neufs & occasion vers le Maghreb & l'Europe</title>
 <meta name="description" content="SJA Passion 73, votre expert de la vente et de l'importation depuis plus de 20 ans. Véhicules neufs et d'occasion sélectionnés, accompagnement complet : vente, transit, dédouanement, livraison à travers le Maghreb et l'Europe." />
 <meta name="theme-color" content="#0a0a0b" />
@@ -44,7 +46,7 @@
 <!-- ===================== INTRO ===================== -->
 <div class="sja-intro" id="sjaIntro" aria-hidden="true">
   <div class="sja-intro__scene">
-    <video class="sja-intro__video" id="introVideo" src="assets/intro-video.mp4" muted playsinline preload="auto"></video>
+    <video class="sja-intro__video" id="introVideo" muted playsinline preload="none"></video>
     <div class="sja-intro__logo" id="introLogo">
       <span class="sja-intro__glow" aria-hidden="true"></span>
       <img src="assets/logo-sja.png" alt="SJA Passion 73" />
@@ -69,9 +71,9 @@
     <div class="nav-right">
       <div class="nav-top">
         <nav class="nav-links" aria-label="Navigation principale">
-          <a href="#top" class="is-current">Normes France et UE</a>
+          <a href="#top" class="is-current">Vente France et UE</a>
           <a href="Rachat Cash.html" class="nav-rachat">Rachat cash</a>
-          <a href="Export Hors UE.html" class="nav-rachat">Export normes hors UE</a>
+          <a href="Export Hors UE.html" class="nav-rachat">Export hors UE</a>
           <a href="Super Promo Intra UE.html" class="nav-superpromo">Super Promos</a>
         </nav>
         <button class="icon-btn nav-burger" id="burger" aria-label="Menu">
@@ -91,8 +93,7 @@
   <div class="nav-subbar">
     <div class="container">
       <a href="#catalogue" class="active">Catalogue</a>
-      <a href="#catBar">Recherche</a>
-      <a href="#brands">Marques</a>
+      <a href="#brands">Recherche</a>
       <a href="#why">Pourquoi nous</a>
       <a href="#process">Process</a>
       <a href="#testimonials">Témoignages</a>
@@ -137,8 +138,15 @@
       <p>Filtrez par marque, état et budget. Chaque véhicule est vérifié et prêt à rouler, pour la France comme pour l'export.</p>
     </div>
 
+    <div class="section-head reveal-up" id="brands" style="margin-top:12px">
+      <span class="eyebrow">Étape 1 · Sélectionnez votre marque</span>
+      <h2 style="font-size:clamp(20px,2.4vw,28px)">Choisissez votre marque</h2>
+    </div>
+    <div class="brand-grid reveal-up" id="brandGrid"></div>
+
+    <div class="section-head reveal-up" style="margin-top:26px"><span class="eyebrow">Étape 2 · Affinez vos critères</span></div>
     <div class="catalogue-bar reveal-up" id="catBar">
-      <div class="cat-chip-group" id="brandFilters" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+      <div class="brand-slot" id="brandSlot"><span class="brand-slot-label">Marque</span><span class="brand-slot-empty">Toutes · cliquez sur un logo</span></div>
       <div class="cat-sep"></div>
       <button class="cat-chip" data-filter="condition" data-val="all">Tous</button>
       <button class="cat-chip" data-filter="condition" data-val="neuf">Neuf</button>
@@ -188,11 +196,7 @@
       </button>
     </div>
 
-    <div class="section-head reveal-up" id="brands" style="margin-top:12px">
-      <span class="eyebrow">Sélecteur de marques</span>
-      <h2 style="font-size:clamp(20px,2.4vw,28px)">Choisissez votre marque</h2>
-    </div>
-    <div class="brand-grid reveal-up" id="brandGrid"></div>
+    
 
     <div class="car-grid" id="carGrid"></div>
   </div>
@@ -418,7 +422,7 @@
       </div>
       <div class="footer-col"><h4>Navigation</h4><ul><li><a href="#brands">Marques</a></li><li><a href="#catalogue">Véhicules</a></li><li><a href="#why">Pourquoi nous</a></li><li><a href="#process">Process</a></li></ul></div>
       <div class="footer-col"><h4>Société</h4><ul><li><a href="Rachat Cash.html">Rachat cash</a></li><li><a href="Export Hors UE.html">Export hors UE</a></li><li><a href="Super Promo Intra UE.html">Super Promo Intra UE</a></li><li><a href="Super Promo Extra UE.html">Super Promo Extra UE</a></li><li><a href="#videos">Nos vidéos</a></li><li><a href="#testimonials">Témoignages</a></li><li><a href="#contact">Contact</a></li></ul></div>
-      <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">CGV</a></li><li><a href="#">Confidentialité</a></li><li><a href="#">Cookies</a></li></ul></div>
+      <div class="footer-col"><h4>Légal</h4><ul><li><a href="Mentions Légales.html">Mentions légales</a></li><li><a href="Mentions Légales.html#cgv">CGV</a></li><li><a href="Mentions Légales.html#rgpd">Confidentialité</a></li><li><a href="Mentions Légales.html#cookies">Cookies</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 SJA Passion 73. Tous droits réservés.</span>
@@ -493,6 +497,7 @@
 <script src="image-slot.js"></script>
 <script src="config.js"></script>
 <script src="data.js"></script>
+<script src="data-annonces.js"></script>
 <script src="model-photos.js"></script>
 <script>
   // Vente France & UE ne doit montrer que les véhicules homologués UE (exclut le pool export hors UE).
@@ -509,5 +514,7 @@
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 <script type="text/babel" src="tweaks-app.jsx"></script>
+<script src="dict-en.js"></script>
+<script src="site-extras.js"></script>
 </body>
 </html>

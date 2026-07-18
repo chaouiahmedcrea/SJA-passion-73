@@ -78,7 +78,7 @@ body {
 /* Image de fond plein écran (parc automobile) */
 #parkBg {
   position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 0;
-  background-image: url('assets/site-bg.png');
+  background-image: url('assets/site-bg.webp');
   background-size: cover; background-position: center; background-repeat: no-repeat;
   pointer-events: none;
 }
@@ -539,6 +539,27 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 .cat-reset svg { width: 15px; height: 15px; }
 .cat-reset:hover { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, transparent); }
+.brand-slot { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; min-height: 44px; border: 1.5px dashed var(--line-strong); border-radius: 100px; color: var(--muted); font-size: 13.5px; transition: border-color 0.25s, background 0.25s; }
+.brand-slot-label { font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.brand-slot-empty { opacity: 0.85; }
+.brand-slot.has-brand { border-style: solid; border-color: var(--gold); background: color-mix(in srgb, var(--gold) 9%, transparent); }
+.brand-slot-chip { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--ink-soft); }
+.brand-slot-chip img { width: 28px; height: 28px; object-fit: contain; }
+.brand-slot-clear { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--ink-soft); font-size: 10px; line-height: 1; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+.brand-slot-clear:hover { border-color: #e04040; color: #e04040; }
+.brand-fly { position: fixed; z-index: 4000; pointer-events: none; display: flex; align-items: center; justify-content: center; will-change: transform; }
+.brand-fly img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.4)); }
+.brand-fly span { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: var(--gold); }
+@keyframes slotLand { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 60%, transparent); } 100% { box-shadow: 0 0 0 20px transparent; } }
+.brand-slot.landed { animation: slotLand 0.7s ease-out; }
+.brand-cell.is-picked { position: relative; opacity: 0.5; }
+.brand-cell.is-picked .brand-coin { opacity: 0.22; filter: grayscale(0.7); }
+.brand-cell.is-picked::after { content: "✓ Dans votre recherche"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 5px 11px; border-radius: 100px; background: var(--gold); color: #14100a; font-size: 11.5px; font-weight: 700; white-space: nowrap; pointer-events: none; }
+@media (max-width: 768px) {
+  .brand-slot { width: 100%; justify-content: flex-start; min-height: 42px; padding: 7px 13px; font-size: 12.5px; }
+  .brand-slot-chip img { width: 24px; height: 24px; }
+  .brand-cell.is-picked::after { font-size: 10.5px; padding: 4px 9px; }
+}
 
 /* Filtre Équipements (multi-sélection) */
 .opt-filter { position: relative; }

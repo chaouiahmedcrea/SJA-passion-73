@@ -86,7 +86,7 @@
   function recolorSrc(baseSrc, slug) {
     const map = window.SJA_RECOLOR || {};
     if (slug && map[baseSrc] && map[baseSrc].indexOf(slug) !== -1) {
-      return baseSrc.replace(/\.jpg$/i, "__" + slug + ".jpg");
+      return baseSrc.replace(/\.(jpg|webp)$/i, function (m) { return "__" + slug + m; });
     }
     return null;
   }
@@ -359,8 +359,8 @@
           '<span class="brand-name-sm">' + b.name + "</span>" +
           '<span class="brand-go-cta">' + (b.soon ? "Prochainement" : "Voir les modèles " + icon("arrow")) + "</span>" +
         "</button>";
-      // Clic normal (logo compris) = ouvre le showroom.
-      cell.addEventListener("click", () => triggerReveal(b.id, cell));
+      // Clic normal (logo compris) = le logo s'envole dans le tableau de recherche.
+      cell.addEventListener("click", () => pickBrand(b, cell));
       // Petit bouton d'édition = insère le logo (sans déclencher la porte).
       const editBtn = $(".brand-logo-edit", cell);
       editBtn.addEventListener("click", (e) => { e.stopPropagation(); openLogoPicker(b.id, cell); });
@@ -371,6 +371,107 @@
       coin.addEventListener("drop", (e) => { e.stopPropagation(); const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) setBrandLogo(b.id, cell, f); });
       grid.appendChild(cell);
     });
+  }
+
+  /* ---- Sélection de marque : envol du logo vers le tableau ------------- */
+  function slotEl() { return $("#brandSlot"); }
+  function emptyBrandSlot() {
+    const slot = slotEl(); if (!slot) return;
+    slot.classList.remove("has-brand");
+    slot.innerHTML = '<span class="brand-slot-label">Marque</span><span class="brand-slot-empty">Toutes · cliquez sur un logo</span>';
+  }
+  function fillBrandSlot(id) {
+    const slot = slotEl(); if (!slot) return;
+    const b = byId(id) || {};
+    const src = loadLogos()[id] || b.logo || "";
+    slot.classList.add("has-brand");
+    slot.innerHTML = '<span class="brand-slot-label">Marque</span>' +
+      '<span class="brand-slot-chip">' + (src ? '<img src="' + src + '" alt="">' : "<b>" + (b.wordmark || "") + "</b>") +
+      "<span>" + (b.name || "") + "</span>" +
+      '<button type="button" class="brand-slot-clear" aria-label="Retirer la marque">&#10005;</button></span>';
+    $(".brand-slot-clear", slot).addEventListener("click", (e) => { e.stopPropagation(); clearBrandPick(true); });
+  }
+  function applyBrandFilterCascade() {
+    state.model = "all"; state.year = "all"; state.energy = "all"; state.gearbox = "all";
+    state.options = []; state.page = 1;
+    populateModelSelect(); populateYearSelect(); populateEnergySelect(); populateGearboxSelect();
+    if (window.SJA && window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts();
+    const badge = $("#optBadge"); if (badge) { badge.textContent = "0"; badge.hidden = true; }
+    syncFilterChips();
+    renderCatalogue(false);
+  }
+  function clearBrandPick(fly) {
+    const slot = slotEl();
+    const picked = $(".brand-cell.is-picked");
+    const chip = slot ? $(".brand-slot-chip", slot) : null;
+    const finish = () => {
+      if (picked) picked.classList.remove("is-picked");
+      emptyBrandSlot();
+      state.brand = "all";
+      applyBrandFilterCascade();
+    };
+    if (fly && slot && picked && chip) flyGhost(chip, $(".brand-coin", picked) || picked, 480, finish);
+    else finish();
+  }
+  function flyGhost(fromEl, toEl, dur, done) {
+    const sy = window.scrollY;
+    const fr = fromEl.getBoundingClientRect(), tr = toEl.getBoundingClientRect();
+    // Coordonnées document (indépendantes du scroll)
+    const from = { left: fr.left, top: fr.top + sy, w: fr.width, h: fr.height };
+    const to = { left: tr.left, top: tr.top + sy, w: tr.width, h: tr.height };
+    // Si la destination est hors écran, la caméra suivra le logo pendant le vol
+    const navH = (nav && nav.offsetHeight) || 0;
+    let endScroll = sy;
+    if (tr.top < navH + 10 || tr.bottom > innerHeight - 10) endScroll = Math.max(0, to.top - navH - 170);
+    const img = fromEl.tagName === "IMG" ? fromEl : $("img", fromEl);
+    const ghost = document.createElement("div");
+    ghost.className = "brand-fly";
+    if (img && img.src && !img.hidden) ghost.innerHTML = '<img src="' + img.src + '" alt="">';
+    else ghost.innerHTML = "<span>" + (fromEl.textContent || "").trim().slice(0, 12) + "</span>";
+    ghost.style.cssText = "position:absolute;left:" + from.left + "px;top:" + from.top + "px;width:" + from.w + "px;height:" + from.h + "px";
+    document.body.appendChild(ghost);
+    const dx = to.left + to.w / 2 - (from.left + from.w / 2);
+    const dy = to.top + to.h / 2 - (from.top + from.h / 2);
+    const sc = Math.max(0.2, Math.min((to.h * 0.82) / from.h, 1.4));
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    // Neutralise le "scroll-behavior:smooth" global le temps du vol (sinon la caméra est en retard sur le logo)
+    const rootStyle = document.documentElement.style, prevSB = rootStyle.scrollBehavior;
+    rootStyle.scrollBehavior = "auto";
+    const t0 = performance.now();
+    (function frame(now) {
+      const p = Math.min(1, ((now || performance.now()) - t0) / dur);
+      const e = ease(p);
+      // Logo et caméra avancent ensemble : le logo reste visible tout du long
+      ghost.style.transform = "translate(" + dx * e + "px," + dy * e + "px) scale(" + (1 + (sc - 1) * e) + ")";
+      ghost.style.opacity = String(1 - 0.08 * e);
+      window.scrollTo(0, sy + (endScroll - sy) * e);
+      if (p < 1) requestAnimationFrame(frame);
+      else { rootStyle.scrollBehavior = prevSB; ghost.remove(); done && done(); }
+    })(t0);
+  }
+  let flyingBrand = false;
+  function pickBrand(b, cell) {
+    if (flyingBrand) return;
+    if (cell.classList.contains("is-picked")) { clearBrandPick(true); return; }
+    try { window.SJA_Sound.unlock(); } catch (e) {}
+    const slot = slotEl();
+    if (!slot) { state.brand = b.id; applyBrandFilterCascade(); return; }
+    const prev = $(".brand-cell.is-picked");
+    if (prev) prev.classList.remove("is-picked");
+    // Amène le tableau dans le champ de vision avant l'envol
+    // Fige le tableau à sa position finale (annule l'anim d'apparition) pour un trajet exact
+    $$("#catalogue .reveal-up, #listings .reveal-up").forEach((el) => { el.style.transition = "none"; el.classList.add("in"); });
+    flyingBrand = true;
+    setTimeout(() => {
+      flyGhost($(".brand-coin", cell) || cell, slot, 1240, () => {
+        flyingBrand = false;
+        cell.classList.add("is-picked");
+        fillBrandSlot(b.id);
+        slot.classList.remove("landed"); void slot.offsetWidth; slot.classList.add("landed");
+        state.brand = b.id;
+        applyBrandFilterCascade();
+      });
+    }, 30);
   }
 
   /* ---- Gestion des logos de marque (insertion + persistance) ----------- */
@@ -666,19 +767,21 @@
   }
 
   function syncFilterChips() {
-    $$('#catalogue [data-filter="brand"]').forEach((c) =>
+    $$('#catalogue [data-filter="brand"], #listings [data-filter="brand"]').forEach((c) =>
       c.classList.toggle("active", c.dataset.val === state.brand));
-    $$('#catalogue [data-filter="condition"]').forEach((c) =>
+    $$('#catalogue [data-filter="condition"], #listings [data-filter="condition"]').forEach((c) =>
       c.classList.toggle("active", c.dataset.val === state.condition));
   }
 
   function buildCatalogueBar() {
     // marque chips : uniquement les marques avec du stock
     const brandWrap = $("#brandFilters");
-    brandWrap.innerHTML = "";
-    brandWrap.appendChild(makeChip("Toutes marques", "brand", "all"));
-    BRANDS.filter((b) => brandVehicleCount(b.id) > 0).forEach((b) =>
-      brandWrap.appendChild(makeChip(b.name + " (" + brandVehicleCount(b.id) + ")", "brand", b.id)));
+    if (brandWrap) {
+      brandWrap.innerHTML = "";
+      brandWrap.appendChild(makeChip("Toutes marques", "brand", "all"));
+      BRANDS.filter((b) => brandVehicleCount(b.id) > 0).forEach((b) =>
+        brandWrap.appendChild(makeChip(b.name + " (" + brandVehicleCount(b.id) + ")", "brand", b.id)));
+    }
     populateModelSelect();
     populateYearSelect();
     populateEnergySelect();
@@ -786,6 +889,8 @@
   // Réinitialise tous les filtres de recherche d'un clic
   const resetBtn = $("#catReset");
   if (resetBtn) resetBtn.addEventListener("click", () => {
+    emptyBrandSlot();
+    $$(".brand-cell.is-picked").forEach((c) => c.classList.remove("is-picked"));
     state.brand = "all"; state.model = "all"; state.year = "all"; state.condition = "all";
     state.options = []; state.energy = "all"; state.gearbox = "all";
     state.maxPrice = +priceRange.max; state.sort = "price-asc"; state.page = 1;
@@ -862,6 +967,8 @@
      ===================================================================== */
   const modal = $("#modal");
   function openModal(v) {
+    // Lien direct partageable vers cette annonce
+    try { var _u = new URL(location.href); _u.searchParams.set("veh", v.id); history.replaceState(null, "", _u); } catch (e) {}
     $("#mTitle").textContent = brandName(v.brand) + " " + v.model;
     $("#mBrand").textContent = brandName(v.brand);
     $("#mPrice").textContent = fmtPrice(v.price) + (v.htLocked ? " HT" : "");
@@ -906,7 +1013,7 @@
         gallery.forEach((src, i) => {
           const t = document.createElement("div");
           t.className = "cp-thumb" + (i === curView ? " active" : "");
-          t.innerHTML = '<img src="' + src + '" alt="" style="width:100%;height:100%;object-fit:cover" />';
+          t.innerHTML = '<img src="' + src + '" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover" />';
           t.addEventListener("click", () => { curView = i; refreshGallery(); });
           thumbs.appendChild(t);
         });
@@ -1170,6 +1277,24 @@
   /* =====================================================================
      FORMULAIRE CONTACT
      ===================================================================== */
+  /* ---- SEO : données structurées véhicules + ouverture par lien direct --- */
+  (function seo() {
+    try {
+      var items = VEHICLES.slice(0, 25).map(function (v) {
+        return { "@type": "Vehicle", "name": brandName(v.brand) + " " + v.model, "brand": { "@type": "Brand", "name": brandName(v.brand) },
+          "vehicleModelDate": String(v.year || ""), "fuelType": v.energy || "",
+          "offers": { "@type": "Offer", "price": v.price || 0, "priceCurrency": "EUR", "availability": "https://schema.org/InStock" } };
+      });
+      var s = document.createElement("script"); s.type = "application/ld+json";
+      s.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": items });
+      document.head.appendChild(s);
+    } catch (e) {}
+    try {
+      var vid = new URLSearchParams(location.search).get("veh");
+      if (vid) { var v = VEHICLES.find(function (x) { return x.id === vid; }); if (v) setTimeout(function () { openModal(v); }, 500); }
+    } catch (e) {}
+  })();
+
   const form = $("#contactForm");
   if (form) form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -1184,6 +1309,7 @@
     });
     if (!ok) return;
     window.SJA_Sound.blip();
+    if (window.SJA_sendLead) window.SJA_sendLead(form, "Demande de contact — site SJA Passion 73");
     $("#formSuccess").classList.add("show");
     form.reset();
     setTimeout(() => $("#formSuccess").classList.remove("show"), 6000);

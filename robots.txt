@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Sitemap: https://chaouiahmedcrea.github.io/SJA-passion-73/sitemap.xml

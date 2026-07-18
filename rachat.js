@@ -76,7 +76,7 @@
     if (/(^|\/)index\.html/i.test(href)) {
       try {
         sessionStorage.setItem("sja-xnav", "1");
-        sessionStorage.setItem("sja-xnav-label", "Normes France et UE");
+        sessionStorage.setItem("sja-xnav-label", "Vente France et UE");
       } catch (e2) {}
     } else if (/Rachat\s*Cash\.html/i.test(href)) {
       try {
@@ -86,7 +86,7 @@
     } else if (/Export\s*Hors\s*UE\.html/i.test(href)) {
       try {
         sessionStorage.setItem("sja-xnav", "1");
-        sessionStorage.setItem("sja-xnav-label", "Export normes hors UE");
+        sessionStorage.setItem("sja-xnav-label", "Export hors UE");
       } catch (e2) {}
     } else if (/Super\s*Promo\s*Intra\s*UE\.html/i.test(href)) {
       try {
@@ -229,6 +229,7 @@
         email.closest(".field").classList.add("invalid"); ok = false;
       }
       if (!ok) return;
+      if (window.SJA_sendLead) window.SJA_sendLead(form, "Demande d'estimation Rachat Cash — SJA Passion 73");
       const success = $("#formSuccess");
       if (success) success.classList.add("show");
       form.querySelectorAll("input, select, textarea").forEach((i) => (i.value = ""));

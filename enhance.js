@@ -98,7 +98,12 @@
     } catch (e) {}
     const destEl = $("#introDest");
     if (destEl) { destEl.textContent = destLabel; destEl.classList.toggle("show", !!destLabel); }
-    play(silentStart);
+    // L'intro complète ne se joue qu'une fois par visite (session) : les robots et
+    // les visiteurs qui reviennent accèdent directement au contenu.
+    let seen = false; try { seen = sessionStorage.getItem("sja-intro-seen") === "1"; } catch (e) {}
+    if (silentStart) play(true);
+    else if (!seen) { try { sessionStorage.setItem("sja-intro-seen", "1"); } catch (e) {} play(false); }
+    else { el.style.display = "none"; document.body.style.overflow = ""; }
   })();
 
   /* ---- Transition inter-pages : marque le passage pour rejouer l'anim (sans son) */
@@ -108,9 +113,9 @@
     const href = a.getAttribute("href") || "";
     if (/(^|\/)index\.html|Rachat\s*Cash\.html|Export\s*Hors\s*UE\.html|Super\s*Promo\s*(Intra|Extra)\s*UE\.html/i.test(href)) {
       let label = "";
-      if (/(^|\/)index\.html/i.test(href)) label = "Normes France et UE";
+      if (/(^|\/)index\.html/i.test(href)) label = "Vente France et UE";
       else if (/Rachat\s*Cash\.html/i.test(href)) label = "Rachat cash";
-      else if (/Export\s*Hors\s*UE\.html/i.test(href)) label = "Export normes hors UE";
+      else if (/Export\s*Hors\s*UE\.html/i.test(href)) label = "Export hors UE";
       else if (/Super\s*Promo\s*Intra\s*UE\.html/i.test(href)) label = "Super Promo";
       else if (/Super\s*Promo\s*Extra\s*UE\.html/i.test(href)) label = "Super Promo";
       try {

@@ -47,3 +47,6 @@ window.SJA_CONFIG = {
   salesMarkup: 1500,
   defaultTheme: "light",                   // "dark" | "light"
 };
+
+/* Statistiques de visite : collez ici votre ID de mesure Google Analytics 4 (ex. "G-XXXXXXXXXX"). Laissez vide pour désactiver. */
+window.SJA_GA_ID = "";
