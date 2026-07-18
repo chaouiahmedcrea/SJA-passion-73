@@ -77,7 +77,7 @@ body {
 
 /* Image de fond plein écran (parc automobile) */
 #parkBg {
-  position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0;
+  position: fixed; inset: 0; width: 100vw; height: 100dvh; z-index: 0;
   background-image: url('assets/site-bg.png');
   background-size: cover; background-position: center; background-repeat: no-repeat;
   pointer-events: none;
@@ -215,7 +215,7 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 /* =========================================================================
    HERO
    ========================================================================= */
-.hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+.hero { position: relative; min-height: 100dvh; display: flex; align-items: center; overflow: hidden; }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
 .hero-bg image-slot, .hero-bg .ph { width: 100%; height: 100%; display: block; filter: contrast(1.12) saturate(1.14) brightness(0.9); }
 .hero-bg::after {
@@ -975,18 +975,18 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 @media (max-width: 760px) {
   .nav-burger { display: none; }
-  .nav > .container { flex-direction: row; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; padding-block: 14px 10px; }
+  .nav > .container { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-block: 14px 10px; }
+  .nav-right { display: contents; }
+  .brand-logo { order: 1; flex: none; margin-right: auto; }
+  .nav-actions { order: 2; justify-content: flex-end; }
+  .nav-top { order: 3; width: 100%; flex-direction: row; }
   .nav-links {
     display: flex; flex-wrap: wrap; gap: 8px; width: 100%;
   }
-  .nav-links a { flex: none; font-size: 13px; }
-  .nav-links a.nav-rachat, .nav-links a.is-current:not(.nav-superpromo) { white-space: nowrap; width: auto; text-align: left; }
+  .nav-links a { flex: 1 1 44%; font-size: 13px; text-align: center; }
+  .nav-links a.nav-rachat, .nav-links a.is-current:not(.nav-superpromo) { white-space: nowrap; width: auto; flex: 1 1 44%; text-align: center; }
   .brand-img { height: 64px; }
   .nav.scrolled .brand-img { height: 52px; }
-  .brand-logo { flex: none; }
-  .nav-right { flex: 1; min-width: 200px; flex-direction: column; align-items: stretch; gap: 10px; transform: none; }
-  .nav-top { flex-direction: row; order: 2; width: 100%; }
-  .nav-actions { order: 1; justify-content: flex-end; }
   .nav-subbar { transform: none; }
   .nav.mobile-open .nav-links {
     display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
