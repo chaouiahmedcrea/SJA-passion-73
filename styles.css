@@ -531,6 +531,14 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 .cat-field select { background: var(--surface-2); border: 1px solid var(--line); color: var(--ink); padding: 9px 12px; border-radius: 10px; font-size: 13.5px; }
 .cat-count { margin-left: auto; color: var(--muted); font-size: 13.5px; }
 .cat-count b { color: var(--gold); }
+.cat-reset {
+  display: inline-flex; align-items: center; gap: 7px; padding: 9px 15px; border-radius: 100px;
+  font-size: 13px; font-weight: 600; color: var(--ink-soft);
+  border: 1px solid var(--line-strong); background: var(--surface-2);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.cat-reset svg { width: 15px; height: 15px; }
+.cat-reset:hover { color: var(--gold); border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, transparent); }
 
 /* Filtre Équipements (multi-sélection) */
 .opt-filter { position: relative; }

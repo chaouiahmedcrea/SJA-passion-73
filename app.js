@@ -264,11 +264,10 @@
   }
   function gearboxOf(v) {
     const s = (v.transmission || "") + " " + (v.version || "") + " " + (v.rawModel || "");
-    if (/auto|bva|\bedc\b|\bat\d?\b|\bdct\b|\bcvt\b/i.test(s)) return "Automatique";
-    if (/manual|bvm|\bmt\b|\bmanuelle?\b|6eb|6mt|5mt/i.test(s)) return "Manuelle";
     const e = energyOf(v);
     if (e === "Électrique" || e === "Hybride") return "Automatique";
-    return null;
+    if (/auto|bva|\bedc\b|\bat\d?\b|\bdct\b|\bcvt\b/i.test(s)) return "Automatique";
+    return "Manuelle";
   }
 
   /* =====================================================================
@@ -516,6 +515,21 @@
   /* =====================================================================
      CATALOGUE
      ===================================================================== */
+  // Applique tous les filtres actifs SAUF celui indiqué (pour des compteurs "en entonnoir")
+  function passesExcept(v, except) {
+    if (except !== "brand" && state.brand !== "all" && v.brand !== state.brand) return false;
+    if (except !== "model" && state.model !== "all" && v.model !== state.model) return false;
+    if (except !== "year" && state.year !== "all" && String(v.year) !== String(state.year)) return false;
+    if (except !== "condition" && state.condition !== "all" && v.condition !== state.condition) return false;
+    if (except !== "options" && state.options.length) {
+      const res = state.options.map((label) => (OPTION_DEFS.find((d) => d[0] === label) || [])[1]).filter(Boolean);
+      if (!res.every((re) => vehicleHasOption(v, re))) return false;
+    }
+    if (except !== "energy" && state.energy !== "all" && energyOf(v) !== state.energy) return false;
+    if (except !== "gearbox" && state.gearbox !== "all" && gearboxOf(v) !== state.gearbox) return false;
+    if (except !== "price" && v.price > state.maxPrice) return false;
+    return true;
+  }
   function filteredVehicles() {
     let list = VEHICLES.slice();
     if (state.brand !== "all") list = list.filter((v) => v.brand === state.brand);
@@ -696,7 +710,7 @@
     if (!sel) return;
     const cur = state.year;
     const years = Array.from(new Set(VEHICLES
-      .filter((v) => state.brand === "all" || v.brand === state.brand)
+      .filter((v) => passesExcept(v, "year"))
       .map((v) => v.year))).sort((a, b) => b - a);
     sel.innerHTML = '<option value="all">Toutes les années</option>' +
       years.map((y) => '<option value="' + y + '">' + y + "</option>").join("");
@@ -704,7 +718,9 @@
     state.year = sel.value;
   }
   function brandScopedList() {
-    return VEHICLES.filter((v) => state.brand === "all" || v.brand === state.brand);
+    return VEHICLES.filter((v) =>
+      (state.brand === "all" || v.brand === state.brand) &&
+      (state.model === "all" || v.model === state.model));
   }
   function populateEnergySelect() {
     const sel = $("#energySelect");
@@ -712,7 +728,7 @@
     const cur = state.energy;
     const order = ["Essence", "Diesel", "Hybride", "Électrique", "GPL / Bicarburation"];
     const counts = {};
-    brandScopedList().forEach((v) => { const e = energyOf(v); if (e) counts[e] = (counts[e] || 0) + 1; });
+    VEHICLES.forEach((v) => { if (!passesExcept(v, "energy")) return; const e = energyOf(v); if (e) counts[e] = (counts[e] || 0) + 1; });
     const avail = order.filter((e) => counts[e]);
     sel.innerHTML = '<option value="all">Toutes énergies</option>' +
       avail.map((e) => '<option value="' + e + '">' + e + " (" + counts[e] + ")</option>").join("");
@@ -725,7 +741,7 @@
     const cur = state.gearbox;
     const order = ["Automatique", "Manuelle"];
     const counts = {};
-    brandScopedList().forEach((v) => { const g = gearboxOf(v); if (g) counts[g] = (counts[g] || 0) + 1; });
+    VEHICLES.forEach((v) => { if (!passesExcept(v, "gearbox")) return; const g = gearboxOf(v); if (g) counts[g] = (counts[g] || 0) + 1; });
     const avail = order.filter((g) => counts[g]);
     sel.innerHTML = '<option value="all">Toutes boîtes</option>' +
       avail.map((g) => '<option value="' + g + '">' + g + " (" + counts[g] + ")</option>").join("");
@@ -739,7 +755,8 @@
     c.textContent = label;
     c.addEventListener("click", () => {
       state[filter] = val;
-      if (filter === "brand") { state.model = "all"; state.year = "all"; populateModelSelect(); populateYearSelect(); populateEnergySelect(); populateGearboxSelect(); }
+      if (filter === "brand") { state.model = "all"; state.year = "all"; populateModelSelect(); populateYearSelect(); populateEnergySelect(); populateGearboxSelect(); if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts(); }
+      else if (filter === "condition") { populateEnergySelect(); populateGearboxSelect(); if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts(); }
       syncFilterChips();
       renderCatalogue(false);
     });
@@ -752,17 +769,33 @@
   }));
   $("#sortSelect").addEventListener("change", (e) => { state.sort = e.target.value; renderCatalogue(false); });
   const modelSel = $("#modelSelect");
-  if (modelSel) modelSel.addEventListener("change", (e) => { state.model = e.target.value; renderCatalogue(false); });
+  if (modelSel) modelSel.addEventListener("change", (e) => { state.model = e.target.value; populateYearSelect(); populateEnergySelect(); populateGearboxSelect(); if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts(); renderCatalogue(false); });
   const yearSel = $("#yearSelect");
-  if (yearSel) yearSel.addEventListener("change", (e) => { state.year = e.target.value; renderCatalogue(false); });
+  if (yearSel) yearSel.addEventListener("change", (e) => { state.year = e.target.value; populateEnergySelect(); populateGearboxSelect(); if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts(); renderCatalogue(false); });
   const energySel = $("#energySelect");
-  if (energySel) energySel.addEventListener("change", (e) => { state.energy = e.target.value; renderCatalogue(false); });
+  if (energySel) energySel.addEventListener("change", (e) => { state.energy = e.target.value; populateGearboxSelect(); if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts(); renderCatalogue(false); });
   const gearboxSel = $("#gearboxSelect");
-  if (gearboxSel) gearboxSel.addEventListener("change", (e) => { state.gearbox = e.target.value; renderCatalogue(false); });
+  if (gearboxSel) gearboxSel.addEventListener("change", (e) => { state.gearbox = e.target.value; populateEnergySelect(); if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts(); renderCatalogue(false); });
   const priceRange = $("#priceRange");
   priceRange.addEventListener("input", (e) => {
     state.maxPrice = +e.target.value;
     $("#priceVal").textContent = fmtPrice(state.maxPrice);
+    renderCatalogue(false);
+  });
+
+  // Réinitialise tous les filtres de recherche d'un clic
+  const resetBtn = $("#catReset");
+  if (resetBtn) resetBtn.addEventListener("click", () => {
+    state.brand = "all"; state.model = "all"; state.year = "all"; state.condition = "all";
+    state.options = []; state.energy = "all"; state.gearbox = "all";
+    state.maxPrice = +priceRange.max; state.sort = "price-asc"; state.page = 1;
+    priceRange.value = priceRange.max;
+    $("#priceVal").textContent = fmtPrice(state.maxPrice);
+    const sortSel = $("#sortSelect"); if (sortSel) sortSel.value = "price-asc";
+    const badge = $("#optBadge"); if (badge) { badge.textContent = "0"; badge.hidden = true; }
+    populateModelSelect(); populateYearSelect(); populateEnergySelect(); populateGearboxSelect();
+    if (window.SJA._rebuildOptionCounts) window.SJA._rebuildOptionCounts();
+    syncFilterChips();
     renderCatalogue(false);
   });
 
@@ -778,12 +811,7 @@
 
     // compte les véhicules correspondant à une option, en respectant les AUTRES filtres actifs
     function baseList() {
-      let l = VEHICLES.slice();
-      if (state.brand !== "all") l = l.filter((v) => v.brand === state.brand);
-      if (state.model !== "all") l = l.filter((v) => v.model === state.model);
-      if (state.year !== "all") l = l.filter((v) => String(v.year) === String(state.year));
-      if (state.condition !== "all") l = l.filter((v) => v.condition === state.condition);
-      return l;
+      return VEHICLES.filter((v) => passesExcept(v, "options"));
     }
 
     function build() {
@@ -802,6 +830,7 @@
           if (e.target.checked) { if (state.options.indexOf(label) === -1) state.options.push(label); }
           else { state.options = state.options.filter((o) => o !== label); }
           syncBadge();
+          populateYearSelect(); populateEnergySelect(); populateGearboxSelect();
           renderCatalogue(false);
           build(); // recalcule les compteurs
         });
@@ -818,7 +847,7 @@
 
     toggle.addEventListener("click", (e) => { e.stopPropagation(); wrap.classList.contains("open") ? close() : open(); });
     panel.addEventListener("click", (e) => e.stopPropagation());
-    clearBtn.addEventListener("click", () => { state.options = []; syncBadge(); renderCatalogue(false); build(); });
+    clearBtn.addEventListener("click", () => { state.options = []; syncBadge(); populateYearSelect(); populateEnergySelect(); populateGearboxSelect(); renderCatalogue(false); build(); });
     document.addEventListener("click", () => { if (wrap.classList.contains("open")) close(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
 
