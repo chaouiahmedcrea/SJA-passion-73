@@ -50,3 +50,7 @@ window.SJA_CONFIG = {
 
 /* Statistiques de visite : collez ici votre ID de mesure Google Analytics 4 (ex. "G-XXXXXXXXXX"). Laissez vide pour désactiver. */
 window.SJA_GA_ID = "";
+
+/* Mode propriétaire : débloqué sur ce navigateur après connexion à admin.html. */
+window.SJA_IS_OWNER = (function () { try { return localStorage.getItem("sja-owner") === "1"; } catch (e) { return false; } })();
+if (window.SJA_IS_OWNER) document.documentElement.classList.add("sja-owner");

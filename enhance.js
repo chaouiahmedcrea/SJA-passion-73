@@ -222,9 +222,11 @@
     input.addEventListener("change", () => { if (input.files[0]) ingest(input.files[0]); });
     if (clear) clear.addEventListener("click", () => { apply(null); try { localStorage.removeItem(KEY); } catch (e) {} });
 
-    // glisser-déposer sur le bouton
-    ["dragenter", "dragover"].forEach((t) => wrap.addEventListener(t, (e) => { e.preventDefault(); wrap.classList.add("dragover"); }));
-    ["dragleave", "drop"].forEach((t) => wrap.addEventListener(t, (e) => { e.preventDefault(); wrap.classList.remove("dragover"); }));
-    wrap.addEventListener("drop", (e) => { const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) ingest(f); });
+    // glisser-déposer sur le bouton (propriétaire uniquement)
+    if (window.SJA_IS_OWNER) {
+      ["dragenter", "dragover"].forEach((t) => wrap.addEventListener(t, (e) => { e.preventDefault(); wrap.classList.add("dragover"); }));
+      ["dragleave", "drop"].forEach((t) => wrap.addEventListener(t, (e) => { e.preventDefault(); wrap.classList.remove("dragover"); }));
+      wrap.addEventListener("drop", (e) => { const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) ingest(f); });
+    }
   })();
 })();

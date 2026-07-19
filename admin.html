@@ -139,12 +139,12 @@ dialog::backdrop{background:rgba(0,0,0,.65)}
     var u = $("#lUser").value.trim(), p = $("#lPass").value;
     var stored = localStorage.getItem(HKEY) || (await sha(DEFAULT_PASS));
     if (u === "admin" && (await sha(p)) === stored) {
-      try { sessionStorage.setItem(SKEY, "1"); } catch (e2) {}
+      try { sessionStorage.setItem(SKEY, "1"); localStorage.setItem("sja-owner", "1"); } catch (e2) {}
       $("#loginErr").style.display = "none";
       show(true);
     } else { $("#loginErr").style.display = "block"; }
   });
-  $("#btnLogout").addEventListener("click", function () { try { sessionStorage.removeItem(SKEY); } catch (e) {} show(false); });
+  $("#btnLogout").addEventListener("click", function () { try { sessionStorage.removeItem(SKEY); localStorage.removeItem("sja-owner"); } catch (e) {} show(false); });
   $("#btnPass").addEventListener("click", async function () {
     var cur = prompt("Mot de passe actuel :"); if (cur === null) return;
     var stored = localStorage.getItem(HKEY) || (await sha(DEFAULT_PASS));

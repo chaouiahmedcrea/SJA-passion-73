@@ -1197,4 +1197,6 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 .pager .pg-ell { color: var(--muted); padding: 0 4px; }
 
 /* Icônes réservées au propriétaire : masquées pour les visiteurs (mode nuit et FR/EN conservés) */
-#introReplay,#photoMgrBtn,#soundToggle,.bg-uploader{display:none !important}
+#introReplay,#photoMgrBtn,#soundToggle,.bg-uploader,.brand-logo-edit{display:none !important}
+html.sja-owner #photoMgrBtn,html.sja-owner .bg-uploader{display:flex !important}
+html.sja-owner .brand-logo-edit{display:grid !important}

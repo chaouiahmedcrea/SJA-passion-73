@@ -361,14 +361,16 @@
         "</button>";
       // Clic normal (logo compris) = le logo s'envole dans le tableau de recherche.
       cell.addEventListener("click", () => pickBrand(b, cell));
-      // Petit bouton d'édition = insère le logo (sans déclencher la porte).
+      // Petit bouton d'édition = insère le logo (réservé au propriétaire — débloqué après connexion à admin.html sur ce navigateur).
       const editBtn = $(".brand-logo-edit", cell);
-      editBtn.addEventListener("click", (e) => { e.stopPropagation(); openLogoPicker(b.id, cell); });
-      // Glisser-déposer un logo sur le médaillon.
+      if (window.SJA_IS_OWNER) editBtn.addEventListener("click", (e) => { e.stopPropagation(); openLogoPicker(b.id, cell); });
+      // Glisser-déposer un logo sur le médaillon (propriétaire uniquement).
       const coin = $(".brand-coin", cell);
-      ["dragenter", "dragover"].forEach((t) => coin.addEventListener(t, (e) => { e.preventDefault(); e.stopPropagation(); coin.classList.add("dropping"); }));
-      ["dragleave", "drop"].forEach((t) => coin.addEventListener(t, (e) => { e.preventDefault(); coin.classList.remove("dropping"); }));
-      coin.addEventListener("drop", (e) => { e.stopPropagation(); const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) setBrandLogo(b.id, cell, f); });
+      if (window.SJA_IS_OWNER) {
+        ["dragenter", "dragover"].forEach((t) => coin.addEventListener(t, (e) => { e.preventDefault(); e.stopPropagation(); coin.classList.add("dropping"); }));
+        ["dragleave", "drop"].forEach((t) => coin.addEventListener(t, (e) => { e.preventDefault(); coin.classList.remove("dropping"); }));
+        coin.addEventListener("drop", (e) => { e.stopPropagation(); const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) setBrandLogo(b.id, cell, f); });
+      }
       grid.appendChild(cell);
     });
   }
@@ -989,6 +991,7 @@
         return;
       }
       main.appendChild(carPhoto(v, curView, true));
+      if (!window.SJA_IS_OWNER) return; // édition des photos réservée au propriétaire
       // bouton d'ajout / remplacement de photo pour la vue affichée
       const tools = document.createElement("div");
       tools.className = "cp-tools";
@@ -1108,6 +1111,7 @@
           refreshCardPhotos(rep);
         }
         function bind() {
+          if (!window.SJA_IS_OWNER) return; // réservé au propriétaire
           cell.addEventListener("click", (e) => {
             if (e.target.closest(".pm-cell-rm")) { e.stopPropagation(); setModelPhoto(rep, view, null); refresh(); return; }
             pickModelPhoto(rep, view, refresh);
