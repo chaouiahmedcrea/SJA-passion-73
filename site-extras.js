@@ -24,6 +24,7 @@
   var LEAD_EMAIL = "contact.sjapassion73@gmail.com";
   var LEAD_WA = "33664401237";
   window.SJA_sendLead = function (form, subject) {
+    /* SJA_LEAD_PATCH_V1 */
     var data = { _subject: subject, _template: "table" };
     var lines = [subject, ""];
     form.querySelectorAll("input, select, textarea").forEach(function (i) {
@@ -34,14 +35,44 @@
       lines.push(key + " : " + i.value);
     });
     lines.push("", "Page : " + document.title);
-    try {
-      fetch("https://formsubmit.co/ajax/" + LEAD_EMAIL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(data)
-      });
-    } catch (e) {}
-    try { window.open("https://wa.me/" + LEAD_WA + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener"); } catch (e) {}
+
+    var waUrl = "https://wa.me/" + LEAD_WA + "?text=" + encodeURIComponent(lines.join("\n"));
+    try { window.open(waUrl, "_blank", "noopener"); } catch (e) {}
+
+    function repli() {
+      var ok = document.getElementById("formSuccess");
+      if (ok) ok.classList.remove("show");
+      var box = document.getElementById("formFallback");
+      if (!box) {
+        box = document.createElement("div");
+        box.id = "formFallback";
+        box.setAttribute("role", "alert");
+        box.style.cssText = "padding:16px 18px;border-radius:12px;margin-top:12px;" +
+          "background:rgba(255,159,10,0.10);border:1px solid rgba(255,159,10,0.35);" +
+          "color:#c47800;font-size:14px;line-height:1.5";
+        box.innerHTML = "<strong>L'envoi automatique n'a pas abouti.</strong><br>" +
+          "Votre message n'est pas parti. Contactez-nous directement, nous répondons vite :<br>" +
+          '<a href="' + waUrl + '" target="_blank" rel="noopener"><b>WhatsApp</b></a> &nbsp;·&nbsp; ' +
+          '<a href="tel:+33664401237">+33 6 64 40 12 37</a> &nbsp;·&nbsp; ' +
+          '<a href="mailto:' + LEAD_EMAIL + '">' + LEAD_EMAIL + '</a>';
+        if (ok && ok.parentNode) ok.parentNode.insertBefore(box, ok.nextSibling);
+        else form.appendChild(box);
+      }
+      box.style.display = "block";
+    }
+
+    return fetch("https://formsubmit.co/ajax/" + LEAD_EMAIL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        var envoye = !!(j && String(j.success) === "true");
+        if (!envoye) repli();
+        return envoye;
+      })
+      .catch(function () { repli(); return false; });
   };
 
   /* ---- BASCULE FR / EN --------------------------------------------------- */
