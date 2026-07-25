@@ -42,9 +42,9 @@ window.SJA_CONFIG = {
 
   // Affichage --------------------------------------------------------------
   currency: { code: "EUR", symbol: "€", locale: "fr-FR" },
-  // Marge appliquée au prix fournisseur (HT) pour obtenir le prix de vente affiché.
-  // Modifiable aussi en direct via le panneau Tweaks.
-  salesMarkup: 1500,
+  // Les prix de vente sont definitifs dans data.js.
+  // Laisser a 0 : le prix d'achat n'est pas publie sur le site.
+  salesMarkup: 0,
   defaultTheme: "light",                   // "dark" | "light"
 };
 

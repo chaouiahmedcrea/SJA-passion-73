@@ -16,8 +16,8 @@
   const euro = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const fmtPrice = (n) => euro.format(n);
   // Marge prix de vente (modifiable via Tweaks). price = priceHT + markup.
-  let markup = (CFG && typeof CFG.salesMarkup === "number") ? CFG.salesMarkup : 1500;
-  function recomputePrices() { VEHICLES.forEach((v) => { if (!v.htLocked) v.price = (v.priceHT || 0) + markup; }); }
+  let markup = (CFG && typeof CFG.salesMarkup === "number") ? CFG.salesMarkup : 0;
+  function recomputePrices() { VEHICLES.forEach((v) => { if (!v.htLocked && typeof v.priceHT === "number") v.price = v.priceHT + markup; }); }
   recomputePrices();
   // Couleur lisible : premier coloris, sans préfixes "4x", en capitales douces
   function prettyColour(s) {
