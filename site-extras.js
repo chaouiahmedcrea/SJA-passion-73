@@ -191,3 +191,38 @@
     window.location.href = a.getAttribute("href");
   }, true);
 })();
+
+/* SJA_UX_PATCH_V1 — liens sociaux et photos manquantes */
+(function () {
+  function appliquerReseaux() {
+    var cfg = (window.SJA_CONFIG && window.SJA_CONFIG.socials) || {};
+    var cles = { ig: "instagram", fb: "facebook", yt: "youtube", tk: "tiktok" };
+    Object.keys(cles).forEach(function (icone) {
+      var url = cfg[cles[icone]];
+      document.querySelectorAll('a[data-icon="' + icone + '"]').forEach(function (a) {
+        var valide = url && url !== "#" && url.trim() !== "";
+        if (valide) {
+          a.setAttribute("href", url);
+          a.setAttribute("target", "_blank");
+          a.setAttribute("rel", "noopener");
+          a.style.display = "";
+        } else {
+          // page pas encore creee : on masque plutot que d'offrir un lien mort
+          a.style.display = "none";
+        }
+      });
+    });
+  }
+  function masquerImagesCassees() {
+    document.addEventListener("error", function (e) {
+      var el = e.target;
+      if (el && el.tagName === "IMG" && !el.dataset.sjaCache) {
+        el.dataset.sjaCache = "1";
+        el.style.visibility = "hidden";
+      }
+    }, true);
+  }
+  function init() { appliquerReseaux(); masquerImagesCassees(); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
