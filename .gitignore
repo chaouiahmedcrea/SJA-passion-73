@@ -1,0 +1,17 @@
+# Fichiers internes à ne JAMAIS mettre en ligne.
+# GitHub Pages publie tout le contenu du dépôt : un fichier présent ici
+# serait téléchargeable par n'importe quel visiteur connaissant son adresse.
+
+# Tableurs (offres et tarifs fournisseurs)
+*.xlsx
+*.xls
+*.xlsm
+*.csv
+
+# Documents internes
+*.docx
+*.pdf
+
+# Clés et variables d'environnement
+.env
+.env.*
