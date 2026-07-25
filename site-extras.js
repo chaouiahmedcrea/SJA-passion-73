@@ -171,3 +171,23 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initLang);
   else initLang();
 })();
+
+/* SJA_WA_PATCH_V1 — ouverture directe de WhatsApp sur mobile */
+(function () {
+  function surMobile() {
+    var ua = navigator.userAgent || "";
+    if (/iPad|iPhone|iPod|Android/i.test(ua)) return true;
+    // iPad recent : se declare en "MacIntel" mais reste tactile
+    return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+  }
+  window.SJA_surMobile = surMobile;
+
+  document.addEventListener("click", function (e) {
+    var cible = e.target;
+    var a = cible && cible.closest ? cible.closest('a[href*="wa.me/"]') : null;
+    if (!a || !surMobile()) return;          // ordinateur : comportement habituel
+    e.preventDefault();
+    a.removeAttribute("target");             // indispensable au lien universel iOS
+    window.location.href = a.getAttribute("href");
+  }, true);
+})();
