@@ -24,7 +24,7 @@
   var LEAD_EMAIL = "contact.sjapassion73@gmail.com";
   var LEAD_WA = "33664401237";
   window.SJA_sendLead = function (form, subject) {
-    /* SJA_LEAD_PATCH_V1 */
+    /* SJA_LEAD_PATCH_V2 */
     var data = { _subject: subject, _template: "table" };
     var lines = [subject, ""];
     form.querySelectorAll("input, select, textarea").forEach(function (i) {
@@ -36,8 +36,22 @@
     });
     lines.push("", "Page : " + document.title);
 
+    /* WhatsApp n'est PLUS ouvert automatiquement : sur un poste sans WhatsApp
+       cela affichait une page de telechargement, et l'onglet volait le focus
+       (le client ne voyait donc jamais le bandeau de confirmation).
+       Le lien reste propose uniquement en cas d'echec de l'envoi. */
     var waUrl = "https://wa.me/" + LEAD_WA + "?text=" + encodeURIComponent(lines.join("\n"));
-    try { window.open(waUrl, "_blank", "noopener"); } catch (e) {}
+
+    function voir(el) {
+      try { el.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {}
+    }
+
+    function reussi() {
+      var ok = document.getElementById("formSuccess");
+      if (!ok) return;
+      ok.classList.add("show");
+      voir(ok);
+    }
 
     function repli() {
       var ok = document.getElementById("formSuccess");
@@ -59,6 +73,7 @@
         else form.appendChild(box);
       }
       box.style.display = "block";
+      voir(box);
     }
 
     return fetch("https://formsubmit.co/ajax/" + LEAD_EMAIL, {
@@ -66,10 +81,18 @@
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify(data)
     })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) {
-        var envoye = !!(j && String(j.success) === "true");
-        if (!envoye) repli();
+      .then(function (r) {
+        if (!r.ok) return false;
+        /* Un HTTP 200 de FormSubmit vaut acceptation. On ne signale un echec
+           que si la reponse dit explicitement le contraire, pour ne pas
+           alarmer un client dont le message est bien parti. */
+        return r.json().then(
+          function (j) { return !j || String(j.success) !== "false"; },
+          function () { return true; }
+        );
+      })
+      .then(function (envoye) {
+        if (envoye) reussi(); else repli();
         return envoye;
       })
       .catch(function () { repli(); return false; });
