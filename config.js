@@ -14,7 +14,7 @@ window.SJA_CONFIG = {
     { label: "Service commercial", number: "33664401237" },
     { label: "Logistique & douane", number: "33679028563" },
   ],
-  email: "contact.sjapassion73@gmail.com",
+  email: "contact@sjapassion73.fr",
   phoneDisplay: ["+33 6 64 40 12 37", "+33 6 79 02 85 63"],
   address: "73000 Chambéry, Savoie — France",
   hours: [

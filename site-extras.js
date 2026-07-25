@@ -17,11 +17,11 @@
   }
 
   /* ---- ENVOI DES FORMULAIRES : email + WhatsApp -------------------------
-     Email : via formsubmit.co vers contact.sjapassion73@gmail.com
+     Email : via formsubmit.co vers contact@sjapassion73.fr
      (au tout premier envoi, FormSubmit envoie un email d'activation à cette
      adresse — cliquez le lien une seule fois, ensuite tout est automatique).
      WhatsApp : ouvre la conversation pré-remplie vers le +33 6 64 40 12 37. */
-  var LEAD_EMAIL = "contact.sjapassion73@gmail.com";
+  var LEAD_EMAIL = "contact@sjapassion73.fr";
   var LEAD_WA = "33664401237";
   window.SJA_sendLead = function (form, subject) {
     /* SJA_LEAD_PATCH_V2 */
