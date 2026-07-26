@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin.html
+Disallow: /stats.html
 Sitemap: https://sjapassion73.fr/sitemap.xml
