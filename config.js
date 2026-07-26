@@ -46,6 +46,14 @@ window.SJA_CONFIG = {
   // Laisser a 0 : le prix d'achat n'est pas publie sur le site.
   salesMarkup: 0,
   defaultTheme: "light",                   // "dark" | "light"
+
+  // Mesure d'audience ------------------------------------------------------
+  // Collez ici l'identifiant fourni par Umami apres avoir ajoute le site.
+  // Vide = aucune mesure, aucun script tiers charge. Voir analytics.js.
+  analytics: {
+    umamiId: "1a01367e-0a8a-4412-a9e2-7f02efd4ffd9",
+    umamiHost: "https://cloud.umami.is",
+  },
 };
 
 /* Statistiques de visite : collez ici votre ID de mesure Google Analytics 4 (ex. "G-XXXXXXXXXX"). Laissez vide pour désactiver. */
