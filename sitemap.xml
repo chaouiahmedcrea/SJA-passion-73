@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://sjapassion73.fr/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://sjapassion73.fr/Rachat%20Cash.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://sjapassion73.fr/Export%20Hors%20UE.html</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://sjapassion73.fr/Super%20Promo%20Intra%20UE.html</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
-  <url><loc>https://sjapassion73.fr/Super%20Promo%20Extra%20UE.html</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://sjapassion73.fr/Mentions%20L%C3%A9gales.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://sjapassion73.fr/</loc><lastmod>2026-07-26</lastmod><priority>1.0</priority></url>
+  <url><loc>https://sjapassion73.fr/Rachat%20Cash.html</loc><lastmod>2026-07-26</lastmod><priority>0.8</priority></url>
+  <url><loc>https://sjapassion73.fr/Export%20Hors%20UE.html</loc><lastmod>2026-07-26</lastmod><priority>0.8</priority></url>
+  <url><loc>https://sjapassion73.fr/Super%20Promo%20Intra%20UE.html</loc><lastmod>2026-07-26</lastmod><priority>0.8</priority></url>
+  <url><loc>https://sjapassion73.fr/Super%20Promo%20Extra%20UE.html</loc><lastmod>2026-07-26</lastmod><priority>0.8</priority></url>
+  <url><loc>https://sjapassion73.fr/Mentions%20L%C3%A9gales.html</loc><lastmod>2026-07-26</lastmod><priority>0.3</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/</loc><lastmod>2026-07-26</lastmod><priority>0.9</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-clio-5.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-arkana.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-austral.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-master.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-captur.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/dacia-duster.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-megane.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-5-e-tech.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-kangoo.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/dacia-sandero-stepway.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/dacia-bigster.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/dacia-jogger.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-megane-e-tech.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-symbioz.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-clio-6.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/renault-rafale.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
+  <url><loc>https://sjapassion73.fr/vehicules/ram-1500.html</loc><lastmod>2026-07-26</lastmod><priority>0.7</priority></url>
 </urlset>
