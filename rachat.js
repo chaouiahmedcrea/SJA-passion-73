@@ -91,12 +91,12 @@
     } else if (/Super\s*Promo\s*Intra\s*UE\.html/i.test(href)) {
       try {
         sessionStorage.setItem("sja-xnav", "1");
-        sessionStorage.setItem("sja-xnav-label", "Super Promo");
+        sessionStorage.setItem("sja-xnav-label", "Super Promos");
       } catch (e2) {}
     } else if (/Super\s*Promo\s*Extra\s*UE\.html/i.test(href)) {
       try {
         sessionStorage.setItem("sja-xnav", "1");
-        sessionStorage.setItem("sja-xnav-label", "Super Promo");
+        sessionStorage.setItem("sja-xnav-label", "Super Promos");
       } catch (e2) {}
     }
   }, true);

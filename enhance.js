@@ -116,8 +116,8 @@
       if (/(^|\/)index\.html/i.test(href)) label = "Vente France et UE";
       else if (/Rachat\s*Cash\.html/i.test(href)) label = "Rachat cash";
       else if (/Export\s*Hors\s*UE\.html/i.test(href)) label = "Export hors UE";
-      else if (/Super\s*Promo\s*Intra\s*UE\.html/i.test(href)) label = "Super Promo";
-      else if (/Super\s*Promo\s*Extra\s*UE\.html/i.test(href)) label = "Super Promo";
+      else if (/Super\s*Promo\s*Intra\s*UE\.html/i.test(href)) label = "Super Promos";
+      else if (/Super\s*Promo\s*Extra\s*UE\.html/i.test(href)) label = "Super Promos";
       try {
         sessionStorage.setItem("sja-xnav", "1");
         sessionStorage.setItem("sja-xnav-label", label);
