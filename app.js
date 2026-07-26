@@ -15,7 +15,7 @@
 
   const euro = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const fmtPrice = (n) => euro.format(n);
-  // Marge prix de vente (modifiable via Tweaks). price = priceHT + markup.
+  // Reglage interne du catalogue. Laisse a 0 : les prix enregistres font foi.
   let markup = (CFG && typeof CFG.salesMarkup === "number") ? CFG.salesMarkup : 0;
   function recomputePrices() { VEHICLES.forEach((v) => { if (!v.htLocked && typeof v.priceHT === "number") v.price = v.priceHT + markup; }); }
   recomputePrices();
@@ -1346,7 +1346,7 @@
     const pr = $("#priceRange");
     if (pr) { pr.min = minP; pr.max = maxP; pr.value = maxP; state.maxPrice = maxP; }
   }
-  // Modifier la marge prix de vente en direct (Tweaks)
+  // Reglage interne (le panneau d'edition est retire en production)
   window.SJA.setMarkup = function (m) {
     markup = Math.max(0, Math.round(+m || 0));
     recomputePrices();

@@ -1,7 +1,6 @@
 /* =========================================================================
-   SJA Passion 73 — Données véhicules (généré depuis Offer Dacia&Renault JUNE 2026.xlsx)
-   804 annonces réelles. Prix affiché = Prix HT + 1500 €.
-   Ne pas éditer à la main : régénéré depuis le fichier Excel fournisseur.
+   SJA Passion 73 — Catalogue vehicules
+   Fichier genere automatiquement. Ne pas editer a la main.
    ========================================================================= */
 window.SJA_BRANDS = [
   {
