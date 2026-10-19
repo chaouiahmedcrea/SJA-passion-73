@@ -16,10 +16,10 @@ window.SJA_CONFIG = {
   ],
   email: "contact@sjapassion73.fr",
   phoneDisplay: ["+33 6 64 40 12 37", "+33 6 79 02 85 63"],
-  address: "73260 Aigueblanche, Savoie, France",
+  address: "73260 La Léchère, Savoie, France",
   hours: [
     { d: "Lundi – Vendredi", h: "9h00 – 19h00" },
-    { d: "Samedi", h: "9h00 – 17h00" },
+    { d: "Samedi", h: "9h00 – 19h00" },
     { d: "Dimanche", h: "Sur rendez-vous" },
   ],
   socials: {

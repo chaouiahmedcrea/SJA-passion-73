@@ -50,9 +50,9 @@ window.SJA_DICT_EN = {
 "Téléphone":"Phone","Veuillez indiquer un téléphone.":"Please enter a phone number.","Pays de livraison":"Delivery country",
 "Algérie":"Algeria","Tunisie":"Tunisia","Maroc":"Morocco","Libye":"Libya","Mauritanie":"Mauritania","France":"France","Belgique":"Belgium","Espagne":"Spain","Italie":"Italy","Allemagne":"Germany","Suisse":"Switzerland","Autre":"Other",
 "Marque / modèle souhaité":"Desired make / model","Votre message":"Your message","Veuillez écrire votre message.":"Please write your message.","Envoyer ma demande":"Send my request",
-"Adresse":"Address","3 agences · Savoie · Rhône · Paris":"3 branches · Savoie · Rhône · Paris","Horaires":"Opening hours","Lundi – Vendredi":"Monday – Friday","Samedi":"Saturday","Dimanche":"Sunday","Sur RDV":"By appointment",
-"Nos agences":"Our branches","Trois points de vente · deux en Auvergne‑Rhône‑Alpes, un à Paris":"Three sales locations · two in Auvergne-Rhône-Alpes, one in Paris",
-"Siège":"Head office","73260 · Savoie — Tarentaise":"73260 · Savoie — Tarentaise","Itinéraire":"Directions","69000 · Rhône":"69000 · Rhône","75012 · Paris 12":"75012 · Paris 12",
+"Adresse":"Address","Siège en Savoie · Livraison France et international":"Head office in Savoie · Delivery across France and worldwide","Horaires":"Opening hours","Lundi – Vendredi":"Monday – Friday","Samedi":"Saturday","Dimanche":"Sunday","Sur RDV":"By appointment",
+"Nos zones d'intervention":"Our service areas","Siège en Savoie · nous livrons partout en France et à l'international":"Head office in Savoie · we deliver across France and worldwide",
+"Siège":"Head office","73260 · Savoie — Tarentaise":"73260 · Savoie — Tarentaise","Itinéraire":"Directions","Zone de livraison · Rhône":"Delivery area · Rhône","Zone de livraison · Île-de-France":"Delivery area · Île-de-France",
 "Votre expert de l'importation de véhicules neufs et d'occasion à travers le Maghreb et l'Europe depuis plus de 20 ans.":"Your expert in importing new and used vehicles across the Maghreb and Europe for over 20 years.",
 "Navigation":"Navigation","Véhicules":"Vehicles","Société":"Company","Super Promo Intra UE":"Super Deals Intra EU","Super Promo Extra UE":"Super Deals Extra EU",
 "Légal":"Legal","Mentions légales":"Legal notice","CGV":"Terms of sale","Confidentialité":"Privacy","Cookies":"Cookies",
@@ -145,7 +145,7 @@ window.SJA_DICT_EN = {
 "Nos meilleures offres du moment — véhicules sélectionnés par SJA Passion 73, réservés à l'export hors Union Européenne.":"Our best current offers — vehicles selected by SJA Passion 73, reserved for export outside the European Union.",
 /* Placeholders */
 "Votre nom":"Your name","vous@email.com":"you@email.com","+213 ...":"+213 ...","Ex. Dacia Duster 4x4":"E.g. Dacia Duster 4x4","Décrivez votre projet d'importation...":"Describe your import project...",
-"06 12 34 56 78":"06 12 34 56 78","Ex. 73260 Aigueblanche":"E.g. 73260 Aigueblanche","Ex. Renault Clio 5":"E.g. Renault Clio 5","Ex. 2021":"E.g. 2021","Ex. 68000":"E.g. 68000","Tout ce qui peut nous aider à évaluer votre véhicule.":"Anything that can help us assess your vehicle.",
+"06 12 34 56 78":"06 12 34 56 78","Ex. 73260 La Léchère":"E.g. 73260 La Léchère","Ex. Renault Clio 5":"E.g. Renault Clio 5","Ex. 2021":"E.g. 2021","Ex. 68000":"E.g. 68000","Tout ce qui peut nous aider à évaluer votre véhicule.":"Anything that can help us assess your vehicle.",
 /* Contenus dynamiques (cartes, modale, filtres) */
 "En stock":"In stock","Sur demande":"On request","Face":"Front","Profil":"Side","Arrière":"Rear","3/4 avant":"3/4 front","Intérieur":"Interior",
 "Photos non contractuelles — disponibles à la demande":"Photos not contractually binding — available on request",
