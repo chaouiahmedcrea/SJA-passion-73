@@ -24,7 +24,7 @@ window.SJA_CONFIG = {
   ],
   socials: {
     instagram: "#",
-    facebook: "#",
+    facebook: "https://www.facebook.com/sjapassion73",
     youtube: "#",
     tiktok: "#",
   },
