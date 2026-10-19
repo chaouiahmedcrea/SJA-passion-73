@@ -4,7 +4,7 @@ window.SJA_DICT_EN = {
 "Vente France et UE":"Sales France & EU","Rachat cash":"Cash buyback","Export hors UE":"Export outside EU","Super Promos":"Super Deals",
 "Catalogue":"Catalogue","Recherche":"Search","Marques":"Brands","Pourquoi nous":"Why us","Process":"Process","Témoignages":"Testimonials","Nos vidéos":"Our videos","Votre projet":"Your project","Contact":"Contact","Vidéos":"Videos","Infos":"Info","Nos véhicules":"Our vehicles",
 "Vente automobile en France et à l'international":"Car sales in France and worldwide",
-"La vente de véhicule sans frontières":"Vehicle sales without borders",
+"La vente de véhicules sans frontières":"Vehicle sales without borders",
 "Votre expert de la vente et de l'importation depuis plus de 20 ans. Des véhicules neufs et d'occasion rigoureusement sélectionnés, livrés jusqu'à votre porte.":"Your sales and import expert for over 20 years. Rigorously selected new and used vehicles, delivered to your door.",
 "Voir nos véhicules":"See our vehicles","Nous contacter":"Contact us",
 "véhicules disponibles":"vehicles available","marques partenaires":"partner brands","ans d'expertise":"years of expertise","défiler":"scroll",
