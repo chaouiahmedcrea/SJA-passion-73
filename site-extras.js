@@ -67,7 +67,7 @@
         box.innerHTML = "<strong>L'envoi automatique n'a pas abouti.</strong><br>" +
           "Votre message n'est pas parti. Contactez-nous directement, nous répondons vite :<br>" +
           '<a href="' + waUrl + '" target="_blank" rel="noopener"><b>WhatsApp</b></a> &nbsp;·&nbsp; ' +
-          '<a href="tel:+33664401237">+33 6 64 40 12 37</a> &nbsp;·&nbsp; ' +
+          '<a href="tel:+33685670900">+33 6 85 67 09 00</a> &nbsp;·&nbsp; ' +
           '<a href="mailto:' + LEAD_EMAIL + '">' + LEAD_EMAIL + '</a>';
         if (ok && ok.parentNode) ok.parentNode.insertBefore(box, ok.nextSibling);
         else form.appendChild(box);
