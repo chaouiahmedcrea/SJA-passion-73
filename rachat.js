@@ -198,7 +198,7 @@
   /* ---- FAB WhatsApp ----------------------------------------------------- */
   const fabBtn = $("#fabBtn");
   if (fabBtn) fabBtn.addEventListener("click", () =>
-    window.open("https://wa.me/33664401237?text=" + encodeURIComponent("Bonjour SJA Passion 73, je souhaite faire estimer mon véhicule pour un rachat cash."), "_blank"));
+    window.open("https://wa.me/33685670900?text=" + encodeURIComponent("Bonjour SJA Passion 73, je souhaite faire estimer mon véhicule pour un rachat cash."), "_blank"));
 
   /* ---- Révélations au scroll ------------------------------------------- */
   if ("IntersectionObserver" in window) {

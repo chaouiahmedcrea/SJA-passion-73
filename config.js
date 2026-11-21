@@ -11,11 +11,11 @@ window.SJA_CONFIG = {
 
   // Contact ----------------------------------------------------------------
   whatsapp: [
-    { label: "Service commercial", number: "33664401237" },
+    { label: "Service commercial", number: "33685670900" },
     { label: "Logistique & douane", number: "33679028563" },
   ],
   email: "contact@sjapassion73.fr",
-  phoneDisplay: ["+33 6 64 40 12 37", "+33 6 79 02 85 63"],
+  phoneDisplay: ["+33 6 85 67 09 00", "+33 6 79 02 85 63"],
   address: "73260 La Léchère, Savoie, France",
   hours: [
     { d: "Lundi – Vendredi", h: "9h00 – 19h00" },
